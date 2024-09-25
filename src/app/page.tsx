@@ -162,9 +162,9 @@ export default function Home() {
                 </div>
                 <div className="p-4 bg-primary text-primary-foreground rounded-lg">
                   <p className="font-medium">
-                    Cal Buddy: I've scheduled a meeting with John for next
-                    Tuesday at 2 PM. Would you like me to send an invitation to
-                    John?
+                    {
+                      "Cal Buddy: I've scheduled a meeting with John for next Tuesday at 2 PM. Would you like me to send an invitation to John?"
+                    }
                   </p>
                 </div>
                 <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
@@ -175,9 +175,9 @@ export default function Home() {
                 </div>
                 <div className="p-4 bg-primary text-primary-foreground rounded-lg">
                   <p className="font-medium">
-                    Cal Buddy: Done! I've sent the invitation to John and set a
-                    reminder for you to prepare the presentation at 1 PM next
-                    Tuesday. Is there anything else you need?
+                    {
+                      "Cal Buddy: Done! I've sent the invitation to John and set a reminder for you to prepare the presentation at 1 PM next Tuesday. Is there anything else you need?"
+                    }
                   </p>
                 </div>
               </div>
