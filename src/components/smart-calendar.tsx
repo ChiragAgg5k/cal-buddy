@@ -9,6 +9,7 @@ type Event = {
   id: string;
   title: string;
   date: string;
+  color?: string;
   description?: string;
 };
 
@@ -18,25 +19,27 @@ export default function SmartCalendar({
   addDefaultEvents?: boolean;
 }) {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  // const [events, setEvents] = useState<Event[]>([
-  //   {
-  //     title: "Meeting with John",
-  //     date: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
-  //     description: "Discuss project progress and next steps.",
-  //   }
-  // ]);
   const [events, setEvents] = useState<Event[]>(addDefaultEvents ? [
+    {
+      id: Date.now().toString(),
+      title: "Office Meeting",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14).toISOString(),
+      description: "Discuss project progress and next steps.",
+      color: "#03A9F4",
+    },
     {
       id: Date.now().toString(),
       title: "Meeting with John",
       date: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
       description: "Discuss project progress and next steps.",
+      color: "#009688",
     },
     {
       id: Date.now().toString(),
-      title: "Meeting with Sarah",
+      title: "Pick-up",
       date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 4).toISOString(),
       description: "Discuss project progress and next steps.",
+      color: "#3F51B5",
     },
   ] : []);
 
@@ -46,24 +49,31 @@ export default function SmartCalendar({
     setSelectedEvent(event || null);
   };
 
-  const addEvent = (title: string, date: string, description?: string) => {
-    const event: Event = {
+  const addEvent = (title: string, date: string, description?: string, color?: string) => {
+    const newEvent: Event = {
       id: Date.now().toString(),
       title,
       date,
       description,
+      color,
     };
-    setEvents([...events, event]);
+    console.log(events);
+    setEvents([...events, newEvent]);
+    console.log(events);
   };
 
   const deleteEvent = (id: string) => {
-    const event = events.find((e) => e.id === id);
-    setEvents(events.filter((e) => e.id !== id));
+    setEvents(prevEvents => prevEvents.filter((e) => e.id !== id));
   };
 
   useCopilotReadable({
     description: "The state of the calendar events list",
     value: JSON.stringify(events),
+  });
+
+  useCopilotReadable({
+    description: "The event user last selected",
+    value: JSON.stringify(selectedEvent),
   });
 
   useCopilotAction({
@@ -88,9 +98,15 @@ export default function SmartCalendar({
         description: "The description of the event",
         required: false,
       },
+      {
+        name: "color",
+        type: "string",
+        description: "The color of the event",
+        required: false,
+      }
     ],
-    handler: ({ title, date, description }) => {
-      addEvent(title, date, description);
+    handler: ({ title, date, description = "No description provided.", color }) => {
+      addEvent(title, date, description, color);
     },
   });
 
@@ -117,6 +133,7 @@ export default function SmartCalendar({
         initialView="dayGridMonth"
         events={events}
         eventClick={handleEventClick}
+        eventDisplay="block"
       />
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
         <DialogContent>

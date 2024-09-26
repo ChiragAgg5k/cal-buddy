@@ -293,7 +293,11 @@ export default function Home() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form className="flex space-x-2">
+                <form className="flex space-x-2" onSubmit={
+                  (e) => {
+                    e.preventDefault();
+                  }
+                }>
                   <Input
                     className="max-w-lg flex-1 bg-primary-foreground text-primary"
                     placeholder="Enter your email"
