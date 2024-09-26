@@ -1,5 +1,6 @@
 "use client";
 
+import SmartCalendar from "@/components/smart-calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
@@ -95,10 +96,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-x-4">
-                {/* <Button>Get Started</Button> */}
                 <SignedIn>
                   <Link href={"/dashboard"}>
-                    <Button>Get Started</Button>
+                    <Button>Go to Dashboard</Button>
                   </Link>
                 </SignedIn>
                 <SignedOut>
@@ -182,9 +182,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="w-full lg:w-1/2">
-                <div className="aspect-video rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                {/* <div className="aspect-video rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
                   <Calendar className="h-24 w-24 text-primary" />
-                </div>
+                </div> */}
+                <SmartCalendar />
               </div>
             </div>
           </div>

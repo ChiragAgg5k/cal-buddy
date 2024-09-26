@@ -1,9 +1,9 @@
 "use client";
 
 import { ChatInterfaceComponent } from "@/components/chat-interface";
+import SmartCalendar from "@/components/smart-calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -22,8 +22,6 @@ import {
 } from "@/components/ui/select";
 import { UserButton } from "@clerk/nextjs";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
-import { CopilotPopup } from "@copilotkit/react-ui";
-import "@copilotkit/react-ui/styles.css";
 import {
   Calendar as CalendarIcon,
   MessageSquare,
@@ -346,7 +344,8 @@ export default function Dashboard() {
                 <CardDescription>Your upcoming events</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col mt-4 items-center justify-center">
-                <Calendar mode="single" className="rounded-md border" />
+                {/* <Calendar mode="single" className="rounded-md border" /> */}
+                <SmartCalendar addDefaultEvents={false} />
               </CardContent>
             </Card>
 
@@ -452,13 +451,6 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-            <CopilotPopup
-              labels={{
-                title: "Cal Buddy 🗓️",
-                initial:
-                  "Hello! I'm your Cal Buddy assistant. How can I help you today?",
-              }}
-            />
           </div>
 
           {/* Recent Activity */}
@@ -475,13 +467,12 @@ export default function Dashboard() {
                 {activities.map((activity) => (
                   <li key={activity.id} className="flex items-center space-x-4">
                     <span
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
-                        activity.type === "comment"
-                          ? "bg-primary"
-                          : activity.type === "meeting"
-                            ? "bg-green-500"
-                            : "bg-blue-500"
-                      }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${activity.type === "comment"
+                        ? "bg-primary"
+                        : activity.type === "meeting"
+                          ? "bg-green-500"
+                          : "bg-blue-500"
+                        }`}
                     >
                       {activity.type === "comment" ? (
                         activity.user.substring(0, 2).toUpperCase()
