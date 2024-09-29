@@ -130,7 +130,7 @@ export default function SmartCalendar({
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
-            <span className="font-semibold">Calendar event "{args.title}" added for {args.date}!</span>
+            <span className="font-semibold">Calendar event &quot;{args.title}&quot; added for {args.date}!</span>
           </div>
         )}
       </div>
@@ -179,6 +179,12 @@ export default function SmartCalendar({
         description: "The time period to show events for. Options are 'today', 'next week', and 'next month' (required)",
         required: true,
       },
+      {
+        name: "title",
+        type: "string",
+        description: "The title of the event to show",
+        required: true
+      }
     ],
     handler: ({ period }) => {
       if (!period) {
