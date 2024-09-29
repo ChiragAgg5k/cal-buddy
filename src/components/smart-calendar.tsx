@@ -1,5 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
+import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 import { EventClickArg } from '@fullcalendar/core';
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
@@ -64,50 +65,63 @@ export default function SmartCalendar({
   };
 
   useCopilotReadable({
-    description: "The state of the calendar events list",
-    value: JSON.stringify(events),
+    description: "Current calendar events",
+    value: JSON.stringify(events.map(e => ({
+      id: e.id,
+      title: e.title,
+      date: e.date,
+      description: e.description || 'No description',
+      color: e.color || 'Default color'
+    }))),
   });
 
   useCopilotReadable({
-    description: "The event user last selected",
-    value: JSON.stringify(selectedEvent),
+    description: "Currently selected event",
+    value: selectedEvent ? JSON.stringify({
+      id: selectedEvent.id,
+      title: selectedEvent.title,
+      date: selectedEvent.date,
+      description: selectedEvent.description || 'No description',
+      color: selectedEvent.color || 'Default color'
+    }) : "No event selected",
   });
 
   useCopilotReadable({
     description: "Today's date",
-    value: JSON.stringify(new Date().toISOString().split('T')[0]),
-  })
+    value: new Date().toISOString().split('T')[0],
+  });
 
   useCopilotAction({
     name: "addEvent",
-    description: "Adds a new event to the calendar",
+    description: "Add a new event to the calendar",
     parameters: [
       {
         name: "title",
         type: "string",
-        description: "The title of the event",
+        description: "The title of the event (required)",
         required: true,
       },
       {
         name: "date",
         type: "string",
-        description: "The date of the event. Format should be YYYY-MM-DD",
+        description: "The date of the event in YYYY-MM-DD format (required)",
         required: true,
       },
       {
         name: "description",
         type: "string",
-        description: "The description of the event",
-        required: false,
+        description: "A description of the event (optional)",
       },
       {
         name: "color",
         type: "string",
-        description: "The color of the event",
-        required: false,
+        description: "The color for the event in hexadecimal format, e.g., '#FF0000' for red (optional, defaults to blue '#2196F3')",
       }
     ],
-    handler: ({ title, date, description = "No description provided.", color }) => {
+    handler: ({ title, date, description, color }) => {
+      if (!title || !date) {
+        throw new Error("Title and date are required for adding an event.");
+      }
       addEvent(title, date, description, color);
     },
     render: ({ status, args }) => (
@@ -116,7 +130,7 @@ export default function SmartCalendar({
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
-            <span className="font-semibold">Calendar event {args.title} added!</span>
+            <span className="font-semibold">Calendar event "{args.title}" added for {args.date}!</span>
           </div>
         )}
       </div>
@@ -125,27 +139,82 @@ export default function SmartCalendar({
 
   useCopilotAction({
     name: "deleteEvent",
-    description: "Deletes an event from the calendar",
+    description: "Delete an event from the calendar by its ID",
     parameters: [
       {
         name: "id",
         type: "string",
-        description: "The id of the event",
-        required: true,
+        description: "The unique identifier of the event to be deleted (required)",
       },
     ],
     handler: ({ id }) => {
+      if (!id) {
+        throw new Error("Event ID is required for deleting an event.");
+      }
+      const eventToDelete = events.find(e => e.id === id);
+      if (!eventToDelete) {
+        throw new Error(`No event found with ID: ${id}`);
+      }
       deleteEvent(id);
+      return `Event "${eventToDelete.title}" has been deleted.`;
     },
   });
 
   useCopilotAction({
     name: "clearEvents",
-    description: "Clears all events from the calendar",
+    description: "Remove all events from the calendar",
     handler: () => {
       setEvents([]);
+      return "All events have been cleared from the calendar.";
     },
-  })
+  });
+
+  useCopilotAction({
+    name: "showEventsForPeriod",
+    description: "Show events for a specific time period",
+    parameters: [
+      {
+        name: "period",
+        type: "string",
+        description: "The time period to show events for. Options are 'today', 'next week', and 'next month' (required)",
+        required: true,
+      },
+    ],
+    handler: ({ period }) => {
+      if (!period) {
+        throw new Error("Time period is required for showing events.");
+      }
+      if (period === "today") {
+        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] === new Date().toISOString().split('T')[0]));
+      } else if (period === "next week") {
+        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] >= new Date().toISOString().split('T')[0] + 7 * 24 * 60 * 60 * 1000));
+      } else if (period === "next month") {
+        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] >= new Date().toISOString().split('T')[0] + 30 * 24 * 60 * 60 * 1000));
+      } else {
+        throw new Error(`Invalid time period: ${period}`);
+      }
+    },
+    render: ({ status, args }) => (
+      <div className="flex justify-center items-center text-sm">
+        {status !== "complete" && <p>Showing events for {args.period}...</p>}
+        {status === "complete" && (
+          <div className="flex gap-2">
+            <span>✅</span>
+            <span className="font-semibold">Events for {args.period}: {args.title}</span>
+          </div>
+        )}
+      </div>
+    ),
+  });
+
+  useCopilotChatSuggestions({
+    instructions: `Suggest actions for the calendar. You can -
+    1. Show today's events.
+    2. Show upcoming events for the next wee.
+    3. Count total number of events.
+    4. Clear all events.
+    `,
+  });
 
   return (
     <div>
