@@ -1,6 +1,5 @@
 "use client";
 
-import { ChatInterfaceComponent } from "@/components/chat-interface";
 import SmartCalendar from "@/components/smart-calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -53,7 +52,6 @@ interface Activity {
 }
 
 export default function Dashboard() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([
     {
       id: "1",
@@ -178,7 +176,6 @@ export default function Dashboard() {
 
   const clearRecentActivity = () => {
     setActivities([]);
-    // Add a new activity to show that the list was cleared
     const activity: Activity = {
       id: Date.now().toString(),
       type: "comment",
@@ -199,7 +196,7 @@ export default function Dashboard() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // Sets to true once the component mounts on the client
+    setIsClient(true);
   }, []);
 
   useCopilotReadable({
@@ -269,6 +266,50 @@ export default function Dashboard() {
       // setTaskStatus(id, status);
     },
   });
+
+  useCopilotAction({
+    name: "showTasks",
+    description: "Shows tasks for the user based on the filter",
+    parameters: [
+      {
+        name: "filter",
+        type: "string",
+        description: "The filter to apply to the tasks. Options are 'all', 'active', and 'completed' (required)",
+        required: true,
+      },
+      {
+        name: "task",
+        type: "string",
+        description: "The task to show (optional)",
+        required: false,
+      }
+    ],
+    handler: ({ filter }) => {
+      if (!filter) {
+        throw new Error("Filter is required for showing tasks.");
+      }
+      if (filter === "all") {
+        return JSON.stringify(tasks);
+      } else if (filter === "active") {
+        return JSON.stringify(tasks.filter(t => !t.completed));
+      } else if (filter === "completed") {
+        return JSON.stringify(tasks.filter(t => t.completed));
+      } else {
+        throw new Error(`Invalid filter: ${filter}`);
+      }
+    },
+    render: ({ status, args }) => (
+      <div className="flex justify-center items-center text-sm">
+        {status !== "complete" && <p>Showing tasks for {args.filter}...</p>}
+        {status === "complete" && (
+          <div className="flex gap-2">
+            <span>✅</span>
+            <span className="font-semibold">Tasks for {args.filter}: {args.task}</span>
+          </div>
+        )}
+      </div>
+    ),
+  })
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
@@ -497,13 +538,6 @@ export default function Dashboard() {
           </Card>
         </div>
       </main>
-
-      {/* Chat Interface */}
-      {isChatOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <ChatInterfaceComponent onClose={() => setIsChatOpen(false)} />
-        </div>
-      )}
     </div>
   );
 }

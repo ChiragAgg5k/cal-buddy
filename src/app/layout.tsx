@@ -34,9 +34,6 @@ export default function RootLayout({
     // Provide the Clerk publishableKey
     <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en">
-        <head>
-          <link rel="icon" href="/icon.jpg" />
-        </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
