@@ -39,7 +39,7 @@ export default function SmartCalendar({
       id: "3",
       title: "Pick-up",
       date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 4).toISOString().split('T')[0],
-      description: "Discuss project progress and next steps.",
+      description: "Pick up supplies.",
       color: "#3F51B5",
     },
   ] : []);
@@ -169,7 +169,7 @@ export default function SmartCalendar({
     },
   });
 
-  // 1. Count total number of events
+  // Count total number of events
   useCopilotAction({
     name: "countTotalEvents",
     description: "Count the total number of events in the calendar",
@@ -184,7 +184,7 @@ export default function SmartCalendar({
     ),
   });
 
-  // 2. Show upcoming events for the next week
+  // Show upcoming events for the next week
   useCopilotAction({
     name: "showUpcomingEventsForNextWeek",
     description: "Show events happening within the next 7 days",
@@ -212,7 +212,7 @@ export default function SmartCalendar({
     ),
   });
 
-  // 3. Highlight the busiest days in the month
+  // Highlight the busiest days in the month
   useCopilotAction({
     name: "highlightBusiestDays",
     description: "Highlight the busiest days of the month (days with most events)",
@@ -233,19 +233,27 @@ export default function SmartCalendar({
     render: ({ status, args }) => (
       <div>
         {status !== "complete" && <p>Finding busiest days...</p>}
-        <pre>{typeof args === 'object' ? JSON.stringify(args, null, 2) : args}</pre>
+        {status === "complete" && (
+          <div>
+            {typeof args === "object" ? (
+              <pre>{JSON.stringify(args, null, 2)}</pre>
+            ) : (
+              <p>{String(args)}</p>
+            )}
+          </div>
+        )}
+
       </div>
     ),
   });
 
-  // Chat suggestions for Copilot
   useCopilotChatSuggestions({
     instructions: `Suggest actions for the calendar. You can -
     1. Show today's events.
     2. Show upcoming events for the next week.
-    3. Count total number of events.
+    3. Count the total number of events.
     4. Clear all events.
-    5. Highlight the busiest days of the month.`,
+    `,
   });
 
   return (
@@ -256,26 +264,21 @@ export default function SmartCalendar({
         events={events}
         eventClick={handleEventClick}
         eventDisplay="block"
+        height={500}
       />
-      <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Event Details</DialogTitle>
-          </DialogHeader>
-          {selectedEvent && (
-            <div>
-              <p><strong>Title:</strong> {selectedEvent.title}</p>
-              <p><strong>Date:</strong> {selectedEvent.date}</p>
-              {selectedEvent.description && <p><strong>Description:</strong> {selectedEvent.description}</p>}
-              {selectedEvent.color && (
-                <div>
-                  <strong>Color:</strong> <span style={{ color: selectedEvent.color }}>{selectedEvent.color}</span>
-                </div>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+
+      {selectedEvent && (
+        <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{selectedEvent.title}</DialogTitle>
+            </DialogHeader>
+            <p>Date: {selectedEvent.date}</p>
+            {selectedEvent.description && <p>Description: {selectedEvent.description}</p>}
+            <button onClick={() => deleteEvent(selectedEvent.id)}>Delete Event</button>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
