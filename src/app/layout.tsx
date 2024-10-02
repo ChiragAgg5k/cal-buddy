@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+// Define custom fonts
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -17,28 +18,32 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// Metadata for the page
 export const metadata: Metadata = {
   title: "Cal Buddy",
   description: "Your Smart Calendar Assistant, Powered by CopilotKit",
 };
 
+// Define the RootLayout component
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    // Provide the Clerk publishableKey
+    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <CopilotKit runtimeUrl="/api/copilotkit">{children}
+          {/* CopilotKit configuration */}
+          <CopilotKit runtimeUrl="/api/copilotkit">
+            {children}
             <CopilotPopup
               labels={{
                 title: "Cal Buddy 🗓️",
-                initial:
-                  "Hello! I'm your Cal Buddy assistant. How can I help you today?",
+                initial: "Hello! I'm your Cal Buddy assistant. How can I help you today?",
               }}
             />
           </CopilotKit>
@@ -47,3 +52,4 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
+
