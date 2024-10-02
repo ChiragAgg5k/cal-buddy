@@ -169,57 +169,83 @@ export default function SmartCalendar({
     },
   });
 
+  // 1. Count total number of events
   useCopilotAction({
-    name: "showEventsForPeriod",
-    description: "Show events for a specific time period",
-    parameters: [
-      {
-        name: "period",
-        type: "string",
-        description: "The time period to show events for. Options are 'today', 'next week', and 'next month' (required)",
-        required: true,
-      },
-      {
-        name: "title",
-        type: "string",
-        description: "The title of the event to show",
-        required: true
-      }
-    ],
-    handler: ({ period }) => {
-      if (!period) {
-        throw new Error("Time period is required for showing events.");
-      }
-      if (period === "today") {
-        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] === new Date().toISOString().split('T')[0]));
-      } else if (period === "next week") {
-        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] >= new Date().toISOString().split('T')[0] + 7 * 24 * 60 * 60 * 1000));
-      } else if (period === "next month") {
-        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] >= new Date().toISOString().split('T')[0] + 30 * 24 * 60 * 60 * 1000));
-      } else {
-        throw new Error(`Invalid time period: ${period}`);
-      }
+    name: "countTotalEvents",
+    description: "Count the total number of events in the calendar",
+    handler: () => {
+      return `There are a total of ${events.length} events in the calendar.`;
+    },
+    render: ({ status }) => (
+      <div>
+        {status !== "complete" && <p>Counting events...</p>}
+        {status === "complete" && <p>Total number of events: {events.length}</p>}
+      </div>
+    ),
+  });
+
+  // 2. Show upcoming events for the next week
+  useCopilotAction({
+    name: "showUpcomingEventsForNextWeek",
+    description: "Show events happening within the next 7 days",
+    handler: () => {
+      const today = new Date();
+      const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+      const upcomingEvents = events.filter((event) => {
+        const eventDate = new Date(event.date);
+        return eventDate >= today && eventDate <= nextWeek;
+      });
+      return upcomingEvents.length
+        ? JSON.stringify(upcomingEvents)
+        : "No events in the upcoming week.";
     },
     render: ({ status, args }) => (
-      <div className="flex justify-center items-center text-sm">
-        {status !== "complete" && <p>Showing events for {args.period}...</p>}
+      <div>
+        {status !== "complete" && <p>Fetching events...</p>}
         {status === "complete" && (
-          <div className="flex gap-2">
-            <span>✅</span>
-            <span className="font-semibold">Events for {args.period}: {args.title}</span>
+          <div>
+            <p>Upcoming events in the next week:</p>
+            <pre>{typeof args === 'object' ? JSON.stringify(args, null, 2) : args}</pre>
           </div>
         )}
       </div>
     ),
   });
 
+  // 3. Highlight the busiest days in the month
+  useCopilotAction({
+    name: "highlightBusiestDays",
+    description: "Highlight the busiest days of the month (days with most events)",
+    handler: () => {
+      const eventCountByDay: Record<string, number> = {};
+      events.forEach(event => {
+        if (eventCountByDay[event.date]) {
+          eventCountByDay[event.date]++;
+        } else {
+          eventCountByDay[event.date] = 1;
+        }
+      });
+      const busiestDays = Object.keys(eventCountByDay).sort((a, b) => eventCountByDay[b] - eventCountByDay[a]).slice(0, 3);
+      return busiestDays.length
+        ? `Busiest days: ${busiestDays.join(', ')}`
+        : "No busy days found.";
+    },
+    render: ({ status, args }) => (
+      <div>
+        {status !== "complete" && <p>Finding busiest days...</p>}
+        <pre>{typeof args === 'object' ? JSON.stringify(args, null, 2) : args}</pre>
+      </div>
+    ),
+  });
+
+  // Chat suggestions for Copilot
   useCopilotChatSuggestions({
     instructions: `Suggest actions for the calendar. You can -
     1. Show today's events.
-    2. Show upcoming events for the next wee.
+    2. Show upcoming events for the next week.
     3. Count total number of events.
     4. Clear all events.
-    `,
+    5. Highlight the busiest days of the month.`,
   });
 
   return (
@@ -234,12 +260,20 @@ export default function SmartCalendar({
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{selectedEvent?.title}</DialogTitle>
+            <DialogTitle>Event Details</DialogTitle>
           </DialogHeader>
-          <div>
-            <p><strong>Date:</strong> {selectedEvent?.date}</p>
-            <p><strong>Description:</strong> {selectedEvent?.description || 'No description available.'}</p>
-          </div>
+          {selectedEvent && (
+            <div>
+              <p><strong>Title:</strong> {selectedEvent.title}</p>
+              <p><strong>Date:</strong> {selectedEvent.date}</p>
+              {selectedEvent.description && <p><strong>Description:</strong> {selectedEvent.description}</p>}
+              {selectedEvent.color && (
+                <div>
+                  <strong>Color:</strong> <span style={{ color: selectedEvent.color }}>{selectedEvent.color}</span>
+                </div>
+              )}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
