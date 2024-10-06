@@ -11,6 +11,16 @@ import { Calendar, Check, Clock, MessageSquare, Zap, Menu, X } from "lucide-reac
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const smoothScrollTo = (targetId: string) => {
+    const element = document.querySelector(targetId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   useEffect(() => {
     const smoothScroll = (e: MouseEvent) => {
       e.preventDefault();
@@ -31,6 +41,7 @@ export default function Home() {
     links.forEach((link) => {
       link.addEventListener("click", smoothScroll as EventListener);
     });
+    
 
     return () => {
       links.forEach((link) => {
@@ -72,21 +83,35 @@ export default function Home() {
             <Link
               className="text-lg font-medium text-white hover:text-white-600 hover:underline underline-offset-4 mb-4"
               href="#features"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                smoothScrollTo("#features");
+              }}
+              
+    
             >
               Features
             </Link>
             <Link
               className="text-lg font-medium text-white hover:text-black-600 hover:underline underline-offset-4 mb-4"
               href="#demo"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                smoothScrollTo("#demo");
+              }}
             >
               Demo
             </Link>
             <Link
               className="text-lg font-medium text-white hover:text-black-600 hover:underline underline-offset-4 mb-4"
               href="#pricing"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                smoothScrollTo("#pricing");
+              }}
             >
               Pricing
             </Link>
@@ -94,7 +119,10 @@ export default function Home() {
               <SignInButton mode="modal" fallbackRedirectUrl={"/dashboard"}>
                 <p
                   className="text-lg font-medium text-white hover:text-black-600 hover:underline underline-offset-4 mb-4 hover:cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMenuOpen(false);
+                  }}
                 >
                   Sign In
                 </p>
@@ -401,4 +429,6 @@ export default function Home() {
     </div>
   );
 }
+
+
 
