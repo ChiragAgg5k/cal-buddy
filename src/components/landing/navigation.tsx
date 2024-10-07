@@ -5,6 +5,7 @@ import { Calendar, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 type NavLink = {
   to: string;
@@ -47,7 +48,7 @@ export default function Navigation() {
             ${
               isMobile
                 ? "text-lg text-white hover:text-white-600 mb-4"
-                : "text-sm text-gray-800 hover:text-black-600"
+                : "text-sm text-gray-800 dark:text-white hover:text-black-600"
             }
           `}
         >
@@ -58,7 +59,7 @@ export default function Navigation() {
         <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
           <p
             className={`
-              font-medium hover:underline underline-offset-4 hover:cursor-pointer
+              font-medium hover:underline underline-offset-4 hover:cursor-pointer dark:text-white
               ${
                 isMobile
                   ? "text-lg text-white hover:text-white-600 mb-4"
@@ -78,7 +79,7 @@ export default function Navigation() {
             ${
               isMobile
                 ? "text-lg text-white hover:text-black-600 mb-4"
-                : "text-sm text-gray-800 hover:text-black-600"
+                : "text-sm text-gray-800  hover:text-black-600"
             }
           `}
         >
@@ -89,16 +90,17 @@ export default function Navigation() {
   );
 
   return (
-    <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm">
+    <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm dark:bg-black">
       <Link className="flex items-center justify-center" href="#">
         <Calendar className="h-6 w-6 text-black-600" />
-        <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter">
+        <span className="ml-2 text-xl font-bold text-black dark:text-white leading-snug tracking-tighter">
           Cal Buddy
         </span>
       </Link>
 
+
       <button
-        className="ml-auto sm:hidden"
+        className="ml-auto sm:hidden mr-4"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label={
           isMenuOpen ? "Close Navigation Menu" : "Open Navigation Menu"
@@ -117,9 +119,11 @@ export default function Navigation() {
         </nav>
       )}
 
-      <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6">
+      <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6 mr-4">
         <NavLinks />
       </nav>
+
+      <ModeToggle />
     </header>
   );
 }

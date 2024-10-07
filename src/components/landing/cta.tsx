@@ -13,7 +13,7 @@ export default function CTASection() {
   return (
     <section
       id="cta"
-      className="w-full flex items-center justify-center py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground"
+      className="w-full flex items-center justify-center py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground dark:bg-black dark:text-white"
     >
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
@@ -21,7 +21,7 @@ export default function CTASection() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Ready to Revolutionize Your Calendar?
             </h2>
-            <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl">
+            <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl dark:text-white">
               Join Cal Buddy today and experience the future of smart
               scheduling.
             </p>
@@ -38,9 +38,9 @@ export default function CTASection() {
                 Get Started
               </Button>
             </form>
-            <p className="text-xs text-primary-foreground/60">
+            <p className="text-xs text-primary-foreground/60 dark:text-white">
               By signing up, you agree to our{" "}
-              <Link className="underline underline-offset-2" href="#">
+              <Link className="underline underline-offset-2 dark:text-white" href="#">
                 Terms & Conditions
               </Link>
             </p>

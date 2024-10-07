@@ -1,4 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider } from "@/components/theme-provider"
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 import "@copilotkit/react-ui/styles.css";
@@ -33,16 +34,23 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <CopilotKit runtimeUrl="/api/copilotkit">
-            {children}
-            <CopilotPopup
-              labels={{
-                title: "Cal Buddy 🗓️",
-                initial:
-                  "Hello! I'm your Cal Buddy assistant. How can I help you today?",
-              }}
-            />
-          </CopilotKit>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <CopilotKit runtimeUrl="/api/copilotkit">
+              {children}
+              <CopilotPopup
+                labels={{
+                  title: "Cal Buddy 🗓️",
+                  initial:
+                    "Hello! I'm your Cal Buddy assistant. How can I help you today?",
+                }}
+              />
+            </CopilotKit>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
