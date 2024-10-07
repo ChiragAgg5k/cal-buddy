@@ -4,11 +4,23 @@ import SmartCalendar from "@/components/smart-calendar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { Calendar, Check, Clock, MessageSquare, Zap } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Calendar, Check, Clock, MessageSquare, Zap, Menu, X } from "lucide-react";
+
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const smoothScrollTo = (targetId: string) => {
+    const element = document.querySelector(targetId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   useEffect(() => {
     const smoothScroll = (e: MouseEvent) => {
       e.preventDefault();
@@ -29,6 +41,7 @@ export default function Home() {
     links.forEach((link) => {
       link.addEventListener("click", smoothScroll as EventListener);
     });
+    
 
     return () => {
       links.forEach((link) => {
@@ -39,42 +52,124 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center">
-      <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-background z-50 w-full">
+      <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm">
         <Link className="flex items-center justify-center" href="#">
-          <Calendar className="h-6 w-6 text-primary" />
-          <span className="ml-2 text-2xl font-bold text-primary">
-            Cal Buddy
-          </span>
+          <Calendar className="h-6 w-6 text-black-600" />
+          <span className="ml-2 text-2xl font-bold text-black-600">Cal Buddy</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+
+        {/* Hamburger Menu Button for Small Screens */}
+        {!isMenuOpen && (
+          <button
+            className="ml-auto sm:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Navigation Menu"
+          >
+            <Menu className="h-6 w-6 text-black-600" />
+          </button>
+        )}
+
+        {/* Mobile Navigation Links */}
+        {isMenuOpen && (
+          <nav className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex flex-col items-center justify-center sm:hidden">
+            <button
+              className="absolute top-6 right-6 text-white"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close Navigation Menu"
+            >
+              <X className="h-8 w-8" />
+            </button>
+
+            <Link
+              className="text-lg font-medium text-white hover:text-white-600 hover:underline underline-offset-4 mb-4"
+              href="#features"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                smoothScrollTo("#features");
+              }}
+              
+    
+            >
+              Features
+            </Link>
+            <Link
+              className="text-lg font-medium text-white hover:text-black-600 hover:underline underline-offset-4 mb-4"
+              href="#demo"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                smoothScrollTo("#demo");
+              }}
+            >
+              Demo
+            </Link>
+            <Link
+              className="text-lg font-medium text-white hover:text-black-600 hover:underline underline-offset-4 mb-4"
+              href="#pricing"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                smoothScrollTo("#pricing");
+              }}
+            >
+              Pricing
+            </Link>
+            <SignedOut>
+              <SignInButton mode="modal" fallbackRedirectUrl={"/dashboard"}>
+                <p
+                  className="text-lg font-medium text-white hover:text-black-600 hover:underline underline-offset-4 mb-4 hover:cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  Sign In
+                </p>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <Link
+                className="text-lg font-medium text-white-800 hover:text-black-600 hover:underline underline-offset-4 mb-4"
+                href="/dashboard"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+            </SignedIn>
+          </nav>
+        )}
+
+        {/* Desktop Navigation Links */}
+        <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6">
           <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4 text-gray-800 hover:text-black-600"
             href="#features"
           >
             Features
           </Link>
           <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4 text-gray-800 hover:text-black-600"
             href="#demo"
           >
             Demo
           </Link>
           <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4 text-gray-800 hover:text-black-600"
             href="#pricing"
           >
             Pricing
           </Link>
           <SignedOut>
             <SignInButton mode="modal" fallbackRedirectUrl={"/dashboard"}>
-              <p className="text-sm font-medium hover:underline underline-offset-4 hover:cursor-pointer">
+              <p className="text-sm font-medium hover:underline underline-offset-4 hover:cursor-pointer text-gray-800 hover:text-black-600">
                 Sign In
               </p>
             </SignInButton>
           </SignedOut>
           <SignedIn>
             <Link
-              className="text-sm font-medium hover:underline underline-offset-4"
+              className="text-sm font-medium hover:underline underline-offset-4 text-gray-800 hover:text-black-600"
               href="/dashboard"
             >
               Dashboard
@@ -334,3 +429,6 @@ export default function Home() {
     </div>
   );
 }
+
+
+
