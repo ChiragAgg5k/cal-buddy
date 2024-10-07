@@ -11,7 +11,7 @@ const groq = new Groq({ apiKey: process.env["GROQ_API_KEY"] });
 const copilotKit = new CopilotRuntime();
 
 const serviceAdapter = new GroqAdapter({
-    // @ts-ignore
+  // @ts-ignore
   groq,
   model: "llama3-groq-70b-8192-tool-use-preview",
 });

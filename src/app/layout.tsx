@@ -33,7 +33,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <CopilotKit runtimeUrl="/api/copilotkit">{children}
+          <CopilotKit runtimeUrl="/api/copilotkit">
+            {children}
             <CopilotPopup
               labels={{
                 title: "Cal Buddy 🗓️",

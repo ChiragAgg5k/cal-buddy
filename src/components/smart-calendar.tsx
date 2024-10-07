@@ -1,10 +1,17 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+"use client";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
 import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
-import { EventClickArg } from '@fullcalendar/core';
+import { EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
-import { useState } from 'react';
+import { useState } from "react";
 
 type Event = {
   id: string;
@@ -20,75 +27,94 @@ export default function SmartCalendar({
   addDefaultEvents?: boolean;
 }) {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [events, setEvents] = useState<Event[]>(addDefaultEvents ? [
-    {
-      id: "1",
-      title: "Office Meeting",
-      date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14).toISOString().split('T')[0],
-      description: "Discuss project progress and next steps.",
-      color: "#03A9F4",
-    },
-    {
-      id: "2",
-      title: "Meeting with John",
-      date: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString().split('T')[0],
-      description: "Discuss project progress and next steps.",
-      color: "#009688",
-    },
-    {
-      id: "3",
-      title: "Pick-up",
-      date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 4).toISOString().split('T')[0],
-      description: "Discuss project progress and next steps.",
-      color: "#3F51B5",
-    },
-  ] : []);
+  const [events, setEvents] = useState<Event[]>(
+    addDefaultEvents
+      ? [
+          {
+            id: "1",
+            title: "Office Meeting",
+            date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14)
+              .toISOString()
+              .split("T")[0],
+            description: "Discuss project progress and next steps.",
+            color: "#03A9F4",
+          },
+          {
+            id: "2",
+            title: "Meeting with John",
+            date: new Date(Date.now() + 1000 * 60 * 60 * 24)
+              .toISOString()
+              .split("T")[0],
+            description: "Discuss project progress and next steps.",
+            color: "#009688",
+          },
+          {
+            id: "3",
+            title: "Pick-up",
+            date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 4)
+              .toISOString()
+              .split("T")[0],
+            description: "Discuss project progress and next steps.",
+            color: "#3F51B5",
+          },
+        ]
+      : [],
+  );
 
   const handleEventClick = (clickInfo: EventClickArg) => {
     const event = events.find((e) => e.id === clickInfo.event.id);
     setSelectedEvent(event || null);
   };
 
-  const addEvent = (title: string, date: string, description?: string, color?: string) => {
+  const addEvent = (
+    title: string,
+    date: string,
+    description?: string,
+    color?: string,
+  ) => {
     const newEvent: Event = {
       id: Date.now().toString(),
       title,
-      date: new Date(date).toISOString().split('T')[0],
+      date: new Date(date).toISOString().split("T")[0],
       description,
       color,
     };
-    setEvents(prevEvents => [...prevEvents, newEvent]);
+    setEvents((prevEvents) => [...prevEvents, newEvent]);
   };
 
   const deleteEvent = (id: string) => {
-    setEvents(prevEvents => prevEvents.filter((e) => e.id !== id));
+    setEvents((prevEvents) => prevEvents.filter((e) => e.id !== id));
   };
 
   useCopilotReadable({
     description: "Current calendar events",
-    value: JSON.stringify(events.map(e => ({
-      id: e.id,
-      title: e.title,
-      date: e.date,
-      description: e.description || 'No description',
-      color: e.color || 'Default color'
-    }))),
+    value: JSON.stringify(
+      events.map((e) => ({
+        id: e.id,
+        title: e.title,
+        date: e.date,
+        description: e.description || "No description",
+        color: e.color || "Default color",
+      })),
+    ),
   });
 
   useCopilotReadable({
     description: "Currently selected event",
-    value: selectedEvent ? JSON.stringify({
-      id: selectedEvent.id,
-      title: selectedEvent.title,
-      date: selectedEvent.date,
-      description: selectedEvent.description || 'No description',
-      color: selectedEvent.color || 'Default color'
-    }) : "No event selected",
+    value: selectedEvent
+      ? JSON.stringify({
+          id: selectedEvent.id,
+          title: selectedEvent.title,
+          date: selectedEvent.date,
+          description: selectedEvent.description || "No description",
+          color: selectedEvent.color || "Default color",
+        })
+      : "No event selected",
   });
 
   useCopilotReadable({
     description: "Today's date",
-    value: new Date().toISOString().split('T')[0],
+    value: new Date().toISOString().split("T")[0],
   });
 
   useCopilotAction({
@@ -115,8 +141,9 @@ export default function SmartCalendar({
       {
         name: "color",
         type: "string",
-        description: "The color for the event in hexadecimal format, e.g., '#FF0000' for red (optional, defaults to blue '#2196F3')",
-      }
+        description:
+          "The color for the event in hexadecimal format, e.g., '#FF0000' for red (optional, defaults to blue '#2196F3')",
+      },
     ],
     handler: ({ title, date, description, color }) => {
       if (!title || !date) {
@@ -130,7 +157,9 @@ export default function SmartCalendar({
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
-            <span className="font-semibold">Calendar event &quot;{args.title}&quot; added for {args.date}!</span>
+            <span className="font-semibold">
+              Calendar event &quot;{args.title}&quot; added for {args.date}!
+            </span>
           </div>
         )}
       </div>
@@ -144,14 +173,15 @@ export default function SmartCalendar({
       {
         name: "id",
         type: "string",
-        description: "The unique identifier of the event to be deleted (required)",
+        description:
+          "The unique identifier of the event to be deleted (required)",
       },
     ],
     handler: ({ id }) => {
       if (!id) {
         throw new Error("Event ID is required for deleting an event.");
       }
-      const eventToDelete = events.find(e => e.id === id);
+      const eventToDelete = events.find((e) => e.id === id);
       if (!eventToDelete) {
         throw new Error(`No event found with ID: ${id}`);
       }
@@ -176,26 +206,45 @@ export default function SmartCalendar({
       {
         name: "period",
         type: "string",
-        description: "The time period to show events for. Options are 'today', 'next week', and 'next month' (required)",
+        description:
+          "The time period to show events for. Options are 'today', 'next week', and 'next month' (required)",
         required: true,
       },
       {
         name: "title",
         type: "string",
         description: "The title of the event to show",
-        required: true
-      }
+        required: true,
+      },
     ],
     handler: ({ period }) => {
       if (!period) {
         throw new Error("Time period is required for showing events.");
       }
       if (period === "today") {
-        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] === new Date().toISOString().split('T')[0]));
+        return JSON.stringify(
+          events.filter(
+            (e) =>
+              new Date(e.date).toISOString().split("T")[0] ===
+              new Date().toISOString().split("T")[0],
+          ),
+        );
       } else if (period === "next week") {
-        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] >= new Date().toISOString().split('T')[0] + 7 * 24 * 60 * 60 * 1000));
+        return JSON.stringify(
+          events.filter(
+            (e) =>
+              new Date(e.date).toISOString().split("T")[0] >=
+              new Date().toISOString().split("T")[0] + 7 * 24 * 60 * 60 * 1000,
+          ),
+        );
       } else if (period === "next month") {
-        return JSON.stringify(events.filter(e => new Date(e.date).toISOString().split('T')[0] >= new Date().toISOString().split('T')[0] + 30 * 24 * 60 * 60 * 1000));
+        return JSON.stringify(
+          events.filter(
+            (e) =>
+              new Date(e.date).toISOString().split("T")[0] >=
+              new Date().toISOString().split("T")[0] + 30 * 24 * 60 * 60 * 1000,
+          ),
+        );
       } else {
         throw new Error(`Invalid time period: ${period}`);
       }
@@ -206,7 +255,9 @@ export default function SmartCalendar({
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
-            <span className="font-semibold">Events for {args.period}: {args.title}</span>
+            <span className="font-semibold">
+              Events for {args.period}: {args.title}
+            </span>
           </div>
         )}
       </div>
@@ -231,14 +282,22 @@ export default function SmartCalendar({
         eventClick={handleEventClick}
         eventDisplay="block"
       />
-      <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
+      <Dialog
+        open={!!selectedEvent}
+        onOpenChange={() => setSelectedEvent(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{selectedEvent?.title}</DialogTitle>
           </DialogHeader>
           <div>
-            <p><strong>Date:</strong> {selectedEvent?.date}</p>
-            <p><strong>Description:</strong> {selectedEvent?.description || 'No description available.'}</p>
+            <p>
+              <strong>Date:</strong> {selectedEvent?.date}
+            </p>
+            <p>
+              <strong>Description:</strong>{" "}
+              {selectedEvent?.description || "No description available."}
+            </p>
           </div>
         </DialogContent>
       </Dialog>

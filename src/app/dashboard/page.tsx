@@ -274,7 +274,8 @@ export default function Dashboard() {
       {
         name: "filter",
         type: "string",
-        description: "The filter to apply to the tasks. Options are 'all', 'active', and 'completed' (required)",
+        description:
+          "The filter to apply to the tasks. Options are 'all', 'active', and 'completed' (required)",
         required: true,
       },
       {
@@ -282,7 +283,7 @@ export default function Dashboard() {
         type: "string",
         description: "The task to show (optional)",
         required: false,
-      }
+      },
     ],
     handler: ({ filter }) => {
       if (!filter) {
@@ -291,9 +292,9 @@ export default function Dashboard() {
       if (filter === "all") {
         return JSON.stringify(tasks);
       } else if (filter === "active") {
-        return JSON.stringify(tasks.filter(t => !t.completed));
+        return JSON.stringify(tasks.filter((t) => !t.completed));
       } else if (filter === "completed") {
-        return JSON.stringify(tasks.filter(t => t.completed));
+        return JSON.stringify(tasks.filter((t) => t.completed));
       } else {
         throw new Error(`Invalid filter: ${filter}`);
       }
@@ -304,12 +305,14 @@ export default function Dashboard() {
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
-            <span className="font-semibold">Tasks for {args.filter}: {args.task}</span>
+            <span className="font-semibold">
+              Tasks for {args.filter}: {args.task}
+            </span>
           </div>
         )}
       </div>
     ),
-  })
+  });
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
@@ -317,7 +320,9 @@ export default function Dashboard() {
       <aside className="w-64 bg-white dark:bg-gray-800 p-4 hidden md:block">
         <Link href={"/"} className="flex items-center mb-6">
           <CalendarIcon className="h-6 w-6 text-primary mr-2" />
-          <span className="text-2xl font-bold">Cal Buddy</span>
+          <span className="text-xl font-bold text-black leading-snug tracking-tighter">
+            Cal Buddy
+          </span>
         </Link>
         <nav className="space-y-2">
           <Link
@@ -508,12 +513,13 @@ export default function Dashboard() {
                 {activities.map((activity) => (
                   <li key={activity.id} className="flex items-center space-x-4">
                     <span
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${activity.type === "comment"
-                        ? "bg-primary"
-                        : activity.type === "meeting"
-                          ? "bg-green-500"
-                          : "bg-blue-500"
-                        }`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
+                        activity.type === "comment"
+                          ? "bg-primary"
+                          : activity.type === "meeting"
+                            ? "bg-green-500"
+                            : "bg-blue-500"
+                      }`}
                     >
                       {activity.type === "comment" ? (
                         activity.user.substring(0, 2).toUpperCase()

@@ -17,11 +17,13 @@ Thank you for your interest in contributing to our project! This document provid
 ## Development Workflow
 
 1. **Create a new branch**
+
    ```
    git checkout -b feature/your-feature-name
    ```
 
 2. **Make your changes**
+
    - Write clean, maintainable code
    - Follow our coding standards (see below)
    - Update documentation as needed
