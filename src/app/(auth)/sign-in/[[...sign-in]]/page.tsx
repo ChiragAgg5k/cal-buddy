@@ -57,30 +57,10 @@ export default function SignInPage() {
                             <CardDescription>Welcome back! Please sign in to continue</CardDescription>
                           </CardHeader>
                           <CardContent className="grid gap-y-4">
-                            <div className="grid grid-cols-2 gap-x-4">
-                              <Clerk.Connection name="github" asChild>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  type="button"
-                                  disabled={isGlobalLoading}
-                                >
-                                  <Clerk.Loading scope="provider:github">
-                                    {(isLoading) =>
-                                      isLoading ? (
-                                        <Icons.spinner className="size-4 animate-spin" />
-                                      ) : (
-                                        <>
-                                          <Icons.gitHub className="mr-2 size-4" />
-                                          GitHub
-                                        </>
-                                      )
-                                    }
-                                  </Clerk.Loading>
-                                </Button>
-                              </Clerk.Connection>
+                            <div className="flex w-full">
                               <Clerk.Connection name="google" asChild>
                                 <Button
+                                  className='w-full'
                                   size="sm"
                                   variant="outline"
                                   type="button"
@@ -93,7 +73,7 @@ export default function SignInPage() {
                                       ) : (
                                         <>
                                           <Icons.google className="mr-2 size-4" />
-                                          Google
+                                          Sign in with Google
                                         </>
                                       )
                                     }
