@@ -6,10 +6,22 @@ Thank you for your interest in contributing to our project! This document provid
 
 1. **Fork the repository**
 2. **Clone your fork**
+   
    ```
    git clone https://github.com/ChiragAgg5k/cal-buddy
+   cd cal-buddy
    ```
-3. **Install dependencies**
+3. **Set up envrionment variables**
+   
+   Create a `.env.local` file in the root directory and add the following content:
+   ```
+   GROQ_API_KEY=<GROQ_API_KEY>
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<CLERK_PUBLISHABLE_KEY>
+   CLERK_SECRET_KEY=<CLERK_SECRET_KEY>
+   ```
+   Replace `<GROQ_API_KEY>`, `<CLERK_PUBLISHABLE_KEY>`, and `<CLERK_SECRET_KEY>` with your own values.
+4. **Install dependencies**
+   
    ```
    pnpm install
    ```
