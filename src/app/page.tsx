@@ -6,7 +6,7 @@ import Navigation from "@/components/landing/navigation";
 import PricingSection from "@/components/landing/pricing";
 import { Metadata } from "next";
 import Link from "next/link";
-
+ 
 export const metadata: Metadata = {
   title: "Cal Buddy - Your Smart Calendar Assistant",
   description:
