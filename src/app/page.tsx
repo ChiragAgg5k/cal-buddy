@@ -44,27 +44,25 @@ export default function Home() {
         <PricingSection />
         <CTASection />
       </main>
-      <footer className="w-full py-6 px-4 md:px-6 border-t bg-white text-black flex flex-col items-center justify-center space-y-4">
+      {/* <footer className="w-full py-6 px-4 md:px-6 border-t bg-white text-black flex flex-col items-center justify-center space-y-4"> */}
+      <footer className="w-full py-6 px-4 md:px-6 border-t bg-white text-gray  flex flex-col items-center justify-center space-y-2 sm:space-y-0 sm:flex-row sm:justify-between">
         
-        <div className="text-center">
-          <p className="text-sm">© 2024 Cal Buddy. All rights reserved.</p>
-        </div>
+  <div className="text-center">
+    <p className="text-sm">© 2024 Cal Buddy. All rights reserved.</p>
+  </div>
 
-        <nav className="flex gap-4 sm:gap-6">
-          <Link href="#" className="text-sm hover:underline underline-offset-4 focus:outline-none">
-              Terms of Service
-          </Link>
+  <nav className="flex gap-4 sm:gap-6">
+    <Link href="#" className="text-sm link-underline link-underline-black  underline-offset-4 focus:outline-none">
+      Terms of Service
+    </Link>
 
-          <Link href="#" className="text-sm hover:underline underline-offset-4 focus:outline-none">
-              Privacy
-          </Link>
+    <Link href="#" className="text-sm link-underline link-underline-black  underline-offset-4 focus:outline-none">
+      Privacy
+    </Link>
 
-          <Link href="#" className="text-sm hover:underline underline-offset-4 focus:outline-none">
-              Policies
-          </Link>
-        </nav>
-  
-      </footer>
+  </nav>
+
+</footer>
     </>
   );
 }
