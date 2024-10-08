@@ -55,20 +55,19 @@ export default function Navigation() {
         </ScrollLink>
       ))}
       <SignedOut>
-        <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
-          <p
+        <Link
+            href="/sign-in"
             className={`
-              font-medium hover:underline underline-offset-4 hover:cursor-pointer
+              font-medium hover:underline underline-offset-4
               ${
                 isMobile
-                  ? "text-lg text-white hover:text-white-600 mb-4"
+                  ? "text-lg text-white hover:text-black-600 mb-4"
                   : "text-sm text-gray-800 hover:text-black-600"
               }
             `}
           >
             Sign In
-          </p>
-        </SignInButton>
+          </Link>
       </SignedOut>
       <SignedIn>
         <Link
