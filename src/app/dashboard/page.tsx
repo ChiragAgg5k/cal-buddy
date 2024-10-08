@@ -1,8 +1,10 @@
 "use client";
 
+import QuickActions from "@/components/dashboard/quick-actions";
+import RecentActivity from "@/components/dashboard/recent-activity";
+import TasksComponent from "@/components/dashboard/tasks";
 import SmartCalendar from "@/components/smart-calendar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -10,23 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { UserButton } from "@clerk/nextjs";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
 import {
   Calendar as CalendarIcon,
   MessageSquare,
-  Plus,
   RefreshCw,
-  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -99,7 +90,7 @@ export default function Dashboard() {
   const [newTaskPriority, setNewTaskPriority] = useState<
     "low" | "medium" | "high"
   >("medium");
-  const [taskFilter, setTaskFilter] = useState("all");
+  const [taskFilter, setTaskFilter] = useState<"all" | "active" | "completed">("all");
 
   const addTask = (task: string, priority?: "low" | "medium" | "high") => {
     let taskToAdd;
@@ -320,7 +311,7 @@ export default function Dashboard() {
       <aside className="w-64 bg-white dark:bg-gray-800 p-4 hidden md:block">
         <Link href={"/"} className="flex items-center mb-6">
           <CalendarIcon className="h-6 w-6 text-primary mr-2" />
-          <span className="text-xl font-bold text-black leading-snug tracking-tighter">
+          <span className="text-xl font-bold text-black leading-snug tracking-tighter dark:text-white">
             Cal Buddy
           </span>
         </Link>
@@ -367,19 +358,7 @@ export default function Dashboard() {
           </header>
 
           {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="flex space-x-4">
-              {/* <Button>Schedule Meeting</Button>
-                            <Button variant="outline">Create Task</Button>
-                            <Button variant="outline">View Calendar</Button> */}
-              <p className="text-center text-gray-500 dark:text-gray-400 text-sm">
-                Coming soon...
-              </p>
-            </CardContent>
-          </Card>
+          <QuickActions />
 
           {/* Calendar and Tasks */}
           <div className="grid md:grid-cols-2 gap-6">
@@ -396,152 +375,26 @@ export default function Dashboard() {
             </Card>
 
             {/* Tasks */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Tasks</CardTitle>
-                <CardDescription>Your to-do list</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      addTask(newTask, newTaskPriority);
-                    }}
-                    className="flex space-x-2"
-                  >
-                    <Input
-                      placeholder="Add a new task..."
-                      value={newTask}
-                      onChange={(e) => setNewTask(e.target.value)}
-                      className="flex-grow"
-                    />
-                    <Select
-                      value={newTaskPriority}
-                      onValueChange={(value: "low" | "medium" | "high") =>
-                        setNewTaskPriority(value)
-                      }
-                    >
-                      <SelectTrigger className="w-[120px]">
-                        <SelectValue placeholder="Priority" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="low">Low</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="high">High</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button type="submit">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add
-                    </Button>
-                  </form>
-                  <div className="flex justify-between items-center">
-                    <Select value={taskFilter} onValueChange={setTaskFilter}>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Filter tasks" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Tasks</SelectItem>
-                        <SelectItem value="active">Active Tasks</SelectItem>
-                        <SelectItem value="completed">
-                          Completed Tasks
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <ul className="space-y-2">
-                    {filteredTasks.map((task) => (
-                      <li
-                        key={task.id}
-                        className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            checked={task.completed}
-                            onCheckedChange={() =>
-                              toggleTaskCompletion(task.id)
-                            }
-                          />
-                          <span
-                            className={
-                              task.completed ? "line-through text-gray-500" : ""
-                            }
-                          >
-                            {task.title}
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Badge
-                            variant={
-                              task.priority === "high"
-                                ? "destructive"
-                                : task.priority === "medium"
-                                  ? "default"
-                                  : "secondary"
-                            }
-                          >
-                            {task.priority}
-                          </Badge>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => deleteTask(task.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
+            <TasksComponent 
+              newTask={newTask} 
+              addTask={addTask} 
+              newTaskPriority={newTaskPriority} 
+              setNewTask={setNewTask} 
+              setNewTaskPriority={setNewTaskPriority} 
+              taskFilter={taskFilter} 
+              setTaskFilter={setTaskFilter} 
+              filteredTasks={filteredTasks}
+              toggleTaskCompletion={toggleTaskCompletion}
+              deleteTask={deleteTask}
+            />
           </div>
 
           {/* Recent Activity */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle>Recent Activity</CardTitle>
-              <Button variant="outline" size="sm" onClick={clearRecentActivity}>
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Clear Activity
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                {activities.map((activity) => (
-                  <li key={activity.id} className="flex items-center space-x-4">
-                    <span
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
-                        activity.type === "comment"
-                          ? "bg-primary"
-                          : activity.type === "meeting"
-                            ? "bg-green-500"
-                            : "bg-blue-500"
-                      }`}
-                    >
-                      {activity.type === "comment" ? (
-                        activity.user.substring(0, 2).toUpperCase()
-                      ) : activity.type === "meeting" ? (
-                        <CalendarIcon className="h-5 w-5" />
-                      ) : (
-                        <MessageSquare className="h-5 w-5" />
-                      )}
-                    </span>
-                    <div>
-                      <p className="font-medium">{activity.content}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {isClient
-                          ? activity.timestamp.toLocaleString("en-US")
-                          : "Loading..."}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          <RecentActivity  
+            clearRecentActivity={clearRecentActivity}
+            activities={activities}
+            isClient={isClient}
+          />
         </div>
       </main>
     </div>
