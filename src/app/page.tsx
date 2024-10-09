@@ -8,7 +8,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Cal Buddy - Your Smart Calendar Assistant",
+  title: "Cal Buddy",
   description:
     "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
   keywords: [

@@ -19,7 +19,10 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Cal Buddy",
-  description: "Your Smart Calendar Assistant, Powered by CopilotKit",
+  description: "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
+  icons: [
+    "/logo.png"
+  ]
 };
 
 export default function RootLayout({
@@ -41,6 +44,7 @@ export default function RootLayout({
                 initial:
                   "Hello! I'm your Cal Buddy assistant. How can I help you today?",
               }}
+              
             />
           </CopilotKit>
         </body>

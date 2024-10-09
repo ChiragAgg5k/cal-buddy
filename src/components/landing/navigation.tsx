@@ -1,7 +1,8 @@
 "use client";
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { Calendar, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
@@ -90,7 +91,13 @@ export default function Navigation() {
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm">
       <Link className="flex items-center justify-center" href="#">
-        <Calendar className="h-6 w-6 text-black-600" />
+        {/* <Calendar className="h-6 w-6 text-black-600" /> */}
+        <Image
+          src={"/logo.png"}
+          width={40}
+          height={40}
+          alt="Logo"
+          />
         <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter">
           Cal Buddy
         </span>
