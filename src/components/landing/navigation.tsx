@@ -43,7 +43,7 @@ export default function Navigation() {
           duration={500}
           onClick={() => setIsMenuOpen(false)}
           className={`
-            font-medium hover:underline underline-offset-4 cursor-pointer
+            font-medium link-underline link-underline-black underline-offset-4 cursor-pointer
             ${
               isMobile
                 ? "text-lg text-white hover:text-white-600 mb-4"
@@ -58,7 +58,7 @@ export default function Navigation() {
         <Link
             href="/sign-in"
             className={`
-              font-medium hover:underline underline-offset-4
+              font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
               ${
                 isMobile
                   ? "text-lg text-white hover:text-black-600 mb-4"
@@ -73,7 +73,7 @@ export default function Navigation() {
         <Link
           href="/dashboard"
           className={`
-            font-medium hover:underline underline-offset-4
+            font-medium link-underline link-underline-black underline-offset-4
             ${
               isMobile
                 ? "text-lg text-white hover:text-black-600 mb-4"
