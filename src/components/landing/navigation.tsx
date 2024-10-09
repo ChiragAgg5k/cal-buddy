@@ -1,5 +1,6 @@
 "use client";
 
+import { ThemeMode } from "@/lib/themeModeUtil";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { Calendar, Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -120,6 +121,7 @@ export default function Navigation() {
       <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6">
         <NavLinks />
       </nav>
+      <ThemeMode />
     </header>
   );
 }
