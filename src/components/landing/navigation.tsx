@@ -1,6 +1,6 @@
 "use client";
 
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Calendar, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -55,20 +55,19 @@ export default function Navigation() {
         </ScrollLink>
       ))}
       <SignedOut>
-        <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
-          <p
+        <Link
+            href="/sign-in"
             className={`
               font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
               ${
                 isMobile
-                  ? "text-lg text-white hover:text-white-600 mb-4"
+                  ? "text-lg text-white hover:text-black-600 mb-4"
                   : "text-sm text-gray-800 hover:text-black-600"
               }
             `}
           >
             Sign In
-          </p>
-        </SignInButton>
+          </Link>
       </SignedOut>
       <SignedIn>
         <Link
