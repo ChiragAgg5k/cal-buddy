@@ -11,7 +11,7 @@ import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 import { EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Event = {
   id: string;
@@ -61,6 +61,13 @@ export default function SmartCalendar({
       : [],
   );
 
+  useEffect(() => {
+    const storedEvents = localStorage.getItem("events");
+    if (storedEvents) {
+      setEvents(JSON.parse(storedEvents));
+    }
+  }, []);
+
   const handleEventClick = (clickInfo: EventClickArg) => {
     const event = events.find((e) => e.id === clickInfo.event.id);
     setSelectedEvent(event || null);
@@ -79,11 +86,19 @@ export default function SmartCalendar({
       description,
       color,
     };
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
+    setEvents((prevEvents) => {
+      const updatedEvents = [...prevEvents, newEvent];
+      localStorage.setItem("events", JSON.stringify(updatedEvents));
+      return updatedEvents;
+    });
   };
 
   const deleteEvent = (id: string) => {
-    setEvents((prevEvents) => prevEvents.filter((e) => e.id !== id));
+  setEvents((prevEvents) => {
+    const updatedEvents = prevEvents.filter((e) => e.id !== id);
+    localStorage.setItem("events", JSON.stringify(updatedEvents));
+    return updatedEvents;
+  });
   };
 
   useCopilotReadable({
