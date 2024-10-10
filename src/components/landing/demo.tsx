@@ -35,7 +35,7 @@ const fadeInAnimation = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 2 * index,
+      delay: 1.5 * index,
     },
   }),
 }
@@ -64,7 +64,7 @@ export default function DemoSection() {
                 initial="initial"
                 whileInView="animate"
                 custom={index}
-                viewport={{ once: true }}
+
               >
                 {/* <p className="font-medium">
                   {msg.type === "user" ? "You: " : "Cal Buddy: "}
@@ -73,7 +73,7 @@ export default function DemoSection() {
                 <TypingAnimation 
                   className="font-medium text-base"
                   text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${msg.message}`}
-                  duration={msg.type === "user" ? 30 : 20}
+                  duration={msg.type === "user" ? 20 : 18}
                 />
               </motion.div>
             ))}
