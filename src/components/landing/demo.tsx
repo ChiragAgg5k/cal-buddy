@@ -1,4 +1,8 @@
+"use client"
+
 import SmartCalendar from "@/components/smart-calendar";
+import { motion } from "framer-motion";
+import TypingAnimation from "../ui/typing-animation";
 
 const chatMessages = [
   {
@@ -22,6 +26,20 @@ const chatMessages = [
   },
 ];
 
+const fadeInAnimation = {
+  initial: { 
+    opacity: 0,
+    y: 100
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 2 * index,
+    },
+  }),
+}
+
 export default function DemoSection() {
   return (
     <section
@@ -35,19 +53,29 @@ export default function DemoSection() {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
           <div className="w-full lg:w-1/2 space-y-4">
             {chatMessages.map((msg, index) => (
-              <div
+              <motion.div
                 key={index}
                 className={`p-4 ${
                   msg.type === "user"
                     ? "bg-gray-100 dark:bg-gray-800"
                     : "bg-primary text-primary-foreground"
                 } rounded-lg`}
+                variants={fadeInAnimation}
+                initial="initial"
+                whileInView="animate"
+                custom={index}
+                viewport={{ once: true }}
               >
-                <p className="font-medium">
+                {/* <p className="font-medium">
                   {msg.type === "user" ? "You: " : "Cal Buddy: "}
                   {msg.message}
-                </p>
-              </div>
+                </p> */}
+                <TypingAnimation 
+                  className="font-medium text-base"
+                  text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${msg.message}`}
+                  duration={msg.type === "user" ? 30 : 20}
+                />
+              </motion.div>
             ))}
           </div>
           <div className="w-full lg:w-1/2">
