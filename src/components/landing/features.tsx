@@ -56,6 +56,7 @@ export default function FeaturesSection() {
               initial="initial"
               whileInView="animate"
               custom={index}
+              viewport={{ once: true }}
             >
               <feature.icon className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-bold mb-2">{feature.title}</h3>

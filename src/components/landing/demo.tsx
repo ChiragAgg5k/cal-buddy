@@ -64,7 +64,7 @@ export default function DemoSection() {
                 initial="initial"
                 whileInView="animate"
                 custom={index}
-
+                viewport={{ once: true }}
               >
                 {/* <p className="font-medium">
                   {msg.type === "user" ? "You: " : "Cal Buddy: "}
