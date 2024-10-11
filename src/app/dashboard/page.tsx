@@ -86,6 +86,18 @@ export default function Dashboard() {
       timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
     },
   ]);
+
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+    }
+    const storedActivities = localStorage.getItem('activities');
+    if (storedActivities) {
+      setActivities(JSON.parse(storedActivities));
+      }
+    }, []);
+
   const [newTask, setNewTask] = useState("");
   const [newTaskPriority, setNewTaskPriority] = useState<
     "low" | "medium" | "high"
@@ -112,8 +124,11 @@ export default function Dashboard() {
     }
 
     if (taskToAdd.title.trim() !== "") {
-      setTasks([...tasks, taskToAdd]);
+      const updatedTasks = [...tasks, taskToAdd];
+      setTasks(updatedTasks);
       setNewTask("");
+
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 
       // Add a new activity for task creation
       const activity: Activity = {
@@ -124,15 +139,15 @@ export default function Dashboard() {
         timestamp: new Date(),
       };
       setActivities([activity, ...activities]);
+      localStorage.setItem('activities', JSON.stringify([activity, ...activities]));
     }
   };
 
   const toggleTaskCompletion = (id: string) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task,
-      ),
-    );
+    const completeTask = tasks.map((task) => task.id === id ? { ...task, completed: !task.completed } : task);
+    setTasks(completeTask);
+
+    localStorage.setItem('tasks', JSON.stringify(completeTask));
 
     // Add a new activity for task completion
     const task = tasks.find((t) => t.id === id);
@@ -145,12 +160,16 @@ export default function Dashboard() {
         timestamp: new Date(),
       };
       setActivities([activity, ...activities]);
+      localStorage.setItem('activities', JSON.stringify([activity, ...activities]));
     }
   };
 
   const deleteTask = (id: string) => {
     const task = tasks.find((t) => t.id === id);
-    setTasks(tasks.filter((task) => task.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 
     // Add a new activity for task deletion
     if (task) {
@@ -162,6 +181,7 @@ export default function Dashboard() {
         timestamp: new Date(),
       };
       setActivities([activity, ...activities]);
+      localStorage.setItem('activities', JSON.stringify([activity, ...activities]));
     }
   };
 
@@ -175,6 +195,7 @@ export default function Dashboard() {
       timestamp: new Date(),
     };
     setActivities([activity]);
+    localStorage.setItem('activities', JSON.stringify([activity]));
   };
 
   const filteredTasks = tasks.filter((task) => {
