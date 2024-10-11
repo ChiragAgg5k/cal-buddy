@@ -8,7 +8,7 @@ Thank you for your interest in contributing to our project! This document provid
 2. **Clone your fork**
 
    ```
-   git clone https://github.com/ChiragAgg5k/cal-buddy
+   git clone https://github.com/'your username'/cal-buddy
    cd cal-buddy
    ```
 
