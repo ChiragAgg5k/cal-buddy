@@ -22,6 +22,27 @@ type Event = {
   description?: string;
 };
 
+const parseDate = (dateString: string): Date | null => {
+  let date = new Date(dateString);
+  if (!isNaN(date.getTime())) {
+    return date;
+  }
+
+  const parts = dateString.split("-");
+  if (parts.length === 3) {
+    date = new Date(
+      parseInt(parts[0]),
+      parseInt(parts[1]) - 1,
+      parseInt(parts[2]),
+    );
+    if (!isNaN(date.getTime())) {
+      return date;
+    }
+  }
+
+  return null;
+};
+
 export default function SmartCalendar({
   addDefaultEvents = true,
 }: {
@@ -80,10 +101,16 @@ export default function SmartCalendar({
     description?: string,
     color?: string,
   ) => {
+    const parsedDate = parseDate(date);
+    if (!parsedDate) {
+      console.error("Invalid date format:", date);
+      return;
+    }
+
     const newEvent: Event = {
       id: Date.now().toString(),
       title,
-      date: new Date(date).toISOString().split("T")[0],
+      date: parsedDate.toISOString().split("T")[0],
       description,
       color,
     };
@@ -95,52 +122,81 @@ export default function SmartCalendar({
   };
 
   const deleteEvent = (id: string) => {
-  setEvents((prevEvents) => {
-    const updatedEvents = prevEvents.filter((e) => e.id !== id);
-    localStorage.setItem("events", JSON.stringify(updatedEvents));
-    return updatedEvents;
-  });
+    setEvents((prevEvents) => {
+      const updatedEvents = prevEvents.filter((e) => e.id !== id);
+      localStorage.setItem("events", JSON.stringify(updatedEvents));
+      return updatedEvents;
+    });
   };
 
   useCopilotReadable({
-    description: "Current calendar events",
+    description: "Detailed overview of current calendar events",
     value: JSON.stringify(
       events.map((e) => ({
         id: e.id,
         title: e.title,
         date: e.date,
-        description: e.description || "No description",
-        color: e.color || "Default color",
+        description: e.description || "No description provided",
+        color: e.color || "Default color (blue)",
+        formattedDate: new Date(e.date).toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
       })),
     ),
   });
 
   useCopilotReadable({
-    description: "Currently selected event",
+    description: "Comprehensive details of the currently selected event",
     value: selectedEvent
       ? JSON.stringify({
           id: selectedEvent.id,
           title: selectedEvent.title,
           date: selectedEvent.date,
-          description: selectedEvent.description || "No description",
-          color: selectedEvent.color || "Default color",
+          description: selectedEvent.description || "No description provided",
+          color: selectedEvent.color || "Default color (blue)",
+          formattedDate: new Date(selectedEvent.date).toLocaleDateString(
+            "en-US",
+            {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            },
+          ),
+          daysUntilEvent: Math.ceil(
+            (new Date(selectedEvent.date).getTime() - new Date().getTime()) /
+              (1000 * 3600 * 24),
+          ),
         })
-      : "No event selected",
+      : "No event is currently selected",
   });
 
   useCopilotReadable({
-    description: "Today's date",
-    value: new Date().toISOString().split("T")[0],
+    description: "Current date and time information",
+    value: JSON.stringify({
+      currentDate: new Date().toISOString().split("T")[0],
+      formattedDate: new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      currentTime: new Date().toLocaleTimeString("en-US"),
+      currentWeek: `Week ${Math.ceil((new Date().getDate() + new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay()) / 7)} of the year`,
+    }),
   });
 
   useCopilotAction({
     name: "addEvent",
-    description: "Add a new event to the calendar",
+    description: "Add a new event to the calendar with detailed information",
     parameters: [
       {
         name: "title",
         type: "string",
-        description: "The title of the event (required)",
+        description: "The title or name of the event (required)",
         required: true,
       },
       {
@@ -152,7 +208,7 @@ export default function SmartCalendar({
       {
         name: "description",
         type: "string",
-        description: "A description of the event (optional)",
+        description: "A detailed description of the event (optional)",
       },
       {
         name: "color",
@@ -160,22 +216,34 @@ export default function SmartCalendar({
         description:
           "The color for the event in hexadecimal format, e.g., '#FF0000' for red (optional, defaults to blue '#2196F3')",
       },
+      {
+        name: "time",
+        type: "string",
+        description: "The time of the event in HH:MM format (optional)",
+      },
     ],
     handler: ({ title, date, description, color }) => {
       if (!title || !date) {
-        throw new Error("Title and date are required for adding an event.");
+        throw new Error(
+          "Both title and date are required for adding an event.",
+        );
       }
-      addEvent(title, date, description, color);
+      const parsedDate = parseDate(date);
+      if (!parsedDate) {
+        throw new Error(
+          `Invalid date format: ${date}. Please use YYYY-MM-DD or ISO date string.`,
+        );
+      }
+      addEvent(title, parsedDate.toISOString(), description, color);
+      return `Event "${title}" successfully added for ${parsedDate.toLocaleDateString("en-US", { dateStyle: "full" })}`;
     },
-    render: ({ status, args }) => (
+    render: ({ status, args, result }) => (
       <div className="flex justify-center items-center text-sm">
-        {status !== "complete" && <p>Adding event...</p>}
+        {status !== "complete" && <p>Adding event to calendar...</p>}
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
-            <span className="font-semibold">
-              Calendar event &quot;{args.title}&quot; added for {args.date}!
-            </span>
+            <span className="font-semibold">{result}</span>
           </div>
         )}
       </div>
@@ -184,13 +252,15 @@ export default function SmartCalendar({
 
   useCopilotAction({
     name: "deleteEvent",
-    description: "Delete an event from the calendar by its ID",
+    description:
+      "Remove a specific event from the calendar using its unique identifier",
     parameters: [
       {
         name: "id",
         type: "string",
         description:
           "The unique identifier of the event to be deleted (required)",
+        required: true,
       },
     ],
     handler: ({ id }) => {
@@ -202,34 +272,32 @@ export default function SmartCalendar({
         throw new Error(`No event found with ID: ${id}`);
       }
       deleteEvent(id);
-      return `Event "${eventToDelete.title}" has been deleted.`;
+      return `Event "${eventToDelete.title}" scheduled for ${new Date(eventToDelete.date).toLocaleDateString("en-US", { dateStyle: "full" })} has been successfully removed from the calendar.`;
     },
   });
 
   useCopilotAction({
     name: "clearEvents",
-    description: "Remove all events from the calendar",
+    description:
+      "Remove all events from the calendar, effectively resetting it",
     handler: () => {
+      const eventCount = events.length;
       setEvents([]);
-      return "All events have been cleared from the calendar.";
+      localStorage.removeItem("events");
+      return `All ${eventCount} events have been cleared from the calendar. Your schedule is now empty.`;
     },
   });
 
   useCopilotAction({
     name: "showEventsForPeriod",
-    description: "Show events for a specific time period",
+    description:
+      "Display events for a specific time period with detailed information",
     parameters: [
       {
         name: "period",
         type: "string",
         description:
-          "The time period to show events for. Options are 'today', 'next week', and 'next month' (required)",
-        required: true,
-      },
-      {
-        name: "title",
-        type: "string",
-        description: "The title of the event to show",
+          "The time period to show events for. Options are 'today', 'this week', 'next week', 'this month', and 'next month' (required)",
         required: true,
       },
     ],
@@ -237,42 +305,76 @@ export default function SmartCalendar({
       if (!period) {
         throw new Error("Time period is required for showing events.");
       }
-      if (period === "today") {
-        return JSON.stringify(
-          events.filter(
-            (e) =>
-              new Date(e.date).toISOString().split("T")[0] ===
-              new Date().toISOString().split("T")[0],
-          ),
-        );
-      } else if (period === "next week") {
-        return JSON.stringify(
-          events.filter(
-            (e) =>
-              new Date(e.date).toISOString().split("T")[0] >=
-              new Date().toISOString().split("T")[0] + 7 * 24 * 60 * 60 * 1000,
-          ),
-        );
-      } else if (period === "next month") {
-        return JSON.stringify(
-          events.filter(
-            (e) =>
-              new Date(e.date).toISOString().split("T")[0] >=
-              new Date().toISOString().split("T")[0] + 30 * 24 * 60 * 60 * 1000,
-          ),
-        );
-      } else {
-        throw new Error(`Invalid time period: ${period}`);
-      }
+      const today = new Date();
+      const filteredEvents = events.filter((e) => {
+        const eventDate = new Date(e.date);
+        switch (period) {
+          case "today":
+            return eventDate.toDateString() === today.toDateString();
+          case "this week":
+            const thisWeekStart = new Date(
+              today.setDate(today.getDate() - today.getDay()),
+            );
+            const thisWeekEnd = new Date(
+              today.setDate(today.getDate() - today.getDay() + 6),
+            );
+            return eventDate >= thisWeekStart && eventDate <= thisWeekEnd;
+          case "next week":
+            const nextWeekStart = new Date(
+              today.setDate(today.getDate() - today.getDay() + 7),
+            );
+            const nextWeekEnd = new Date(
+              today.setDate(today.getDate() - today.getDay() + 13),
+            );
+            return eventDate >= nextWeekStart && eventDate <= nextWeekEnd;
+          case "this month":
+            return (
+              eventDate.getMonth() === today.getMonth() &&
+              eventDate.getFullYear() === today.getFullYear()
+            );
+          case "next month":
+            const nextMonth = new Date(
+              today.getFullYear(),
+              today.getMonth() + 1,
+              1,
+            );
+            return (
+              eventDate.getMonth() === nextMonth.getMonth() &&
+              eventDate.getFullYear() === nextMonth.getFullYear()
+            );
+          default:
+            throw new Error(`Invalid time period: ${period}`);
+        }
+      });
+
+      return JSON.stringify(
+        filteredEvents.map((e) => ({
+          ...e,
+          formattedDate: new Date(e.date).toLocaleDateString("en-US", {
+            dateStyle: "full",
+          }),
+        })),
+      );
     },
-    render: ({ status, args }) => (
+    render: ({ status, args, result }) => (
       <div className="flex justify-center items-center text-sm">
-        {status !== "complete" && <p>Showing events for {args.period}...</p>}
+        {status !== "complete" && <p>Fetching events for {args.period}...</p>}
         {status === "complete" && (
           <div className="flex gap-2">
             <span>✅</span>
             <span className="font-semibold">
-              Events for {args.period}: {args.title}
+              Events for {args.period}:{" "}
+              {(() => {
+                try {
+                  const parsedResult = JSON.parse(result);
+                  return Array.isArray(parsedResult)
+                    ? `${parsedResult.length} event(s) found`
+                    : "Events retrieved successfully";
+                } catch (error) {
+                  console.error("Error parsing result:", error);
+                  return "Events retrieved (count unavailable)";
+                }
+              })()}
             </span>
           </div>
         )}
@@ -281,12 +383,17 @@ export default function SmartCalendar({
   });
 
   useCopilotChatSuggestions({
-    instructions: `Suggest actions for the calendar. You can -
-    1. Show today's events.
-    2. Show upcoming events for the next wee.
-    3. Count total number of events.
-    4. Clear all events.
-    `,
+    instructions: `Suggest helpful actions for managing the calendar. You can:
+    1. Show today's events and provide a brief summary.
+    2. Display upcoming events for the next week or month.
+    3. Count and categorize events (e.g., by type or color).
+    4. Suggest clearing all events if the calendar looks cluttered.
+    5. Recommend adding important events like holidays or birthdays.
+    6. Offer to find gaps in the schedule for potential new events.
+    7. Propose rescheduling conflicting events if any are detected.
+    8. Suggest reviewing and updating event descriptions for clarity.
+
+    When making suggestions, consider the current date, upcoming important dates, and the overall distribution of events in the calendar. Provide context for why each suggestion might be helpful to the user.`,
   });
 
   return (
