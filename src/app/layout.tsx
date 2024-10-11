@@ -1,3 +1,4 @@
+import Navigation from "@/components/landing/navigation";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
@@ -19,10 +20,9 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Cal Buddy",
-  description: "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
-  icons: [
-    "/logo.png"
-  ]
+  description:
+    "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
+  icons: ["/logo.png"],
 };
 
 export default function RootLayout({
@@ -37,6 +37,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <CopilotKit runtimeUrl="/api/copilotkit">
+            <Navigation />
             {children}
             <CopilotPopup
               labels={{
@@ -44,7 +45,6 @@ export default function RootLayout({
                 initial:
                   "Hello! I'm your Cal Buddy assistant. How can I help you today?",
               }}
-              
             />
           </CopilotKit>
         </body>

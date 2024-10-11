@@ -1,6 +1,6 @@
 "use client";
 
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -57,8 +57,8 @@ export default function Navigation() {
       ))}
       <SignedOut>
         <Link
-            href="/sign-in"
-            className={`
+          href="/sign-in"
+          className={`
               font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
               ${
                 isMobile
@@ -66,9 +66,9 @@ export default function Navigation() {
                   : "text-sm text-gray-800 hover:text-black-600"
               }
             `}
-          >
-            Sign In
-          </Link>
+        >
+          Sign In
+        </Link>
       </SignedOut>
       <SignedIn>
         <Link
@@ -85,19 +85,17 @@ export default function Navigation() {
           Dashboard
         </Link>
       </SignedIn>
+
+      <SignedIn>
+        <UserButton userProfileMode="modal" />
+      </SignedIn>
     </>
   );
 
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm">
-      <Link className="flex items-center justify-center" href="#">
-        {/* <Calendar className="h-6 w-6 text-black-600" /> */}
-        <Image
-          src={"/logo.png"}
-          width={40}
-          height={40}
-          alt="Logo"
-          />
+      <Link className="flex items-center justify-center" href="/">
+        <Image src={"/logo.png"} width={40} height={40} alt="Logo" />
         <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter">
           Cal Buddy
         </span>
@@ -123,7 +121,7 @@ export default function Navigation() {
         </nav>
       )}
 
-      <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6">
+      <nav className="ml-auto flex flex-row items-center hidden sm:flex gap-4 sm:gap-6">
         <NavLinks />
       </nav>
     </header>
