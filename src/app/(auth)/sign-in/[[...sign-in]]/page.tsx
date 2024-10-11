@@ -1,8 +1,8 @@
-'use client'
-import * as Clerk from '@clerk/elements/common'
-import * as SignIn from '@clerk/elements/sign-in'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+"use client";
+import * as Clerk from "@clerk/elements/common";
+import * as SignIn from "@clerk/elements/sign-in";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,11 +10,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Icons } from '@/components/ui/icons'
-import { Calendar } from 'lucide-react'
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Icons } from "@/components/ui/icons";
+import { Calendar } from "lucide-react";
 
 export default function SignInPage() {
   return (
@@ -33,8 +33,8 @@ export default function SignInPage() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                  &ldquo;Schedule, manage, and chat with your calendar. Boost your
-                  productivity with AI-powered task management.&rdquo;              
+                &ldquo;Schedule, manage, and chat with your calendar. Boost your
+                productivity with AI-powered task management.&rdquo;
               </p>
               <footer className="text-sm">Cal-buddy</footer>
             </blockquote>
@@ -53,13 +53,15 @@ export default function SignInPage() {
                         <Card className="w-full sm:w-96">
                           <CardHeader>
                             <CardTitle>Sign in to Cal buddy</CardTitle>
-                            <CardDescription>Welcome back! Please sign in to continue</CardDescription>
+                            <CardDescription>
+                              Welcome back! Please sign in to continue
+                            </CardDescription>
                           </CardHeader>
                           <CardContent className="grid gap-y-4">
                             <div className="flex w-full">
                               <Clerk.Connection name="google" asChild>
                                 <Button
-                                  className='w-full'
+                                  className="w-full"
                                   size="sm"
                                   variant="outline"
                                   type="button"
@@ -83,7 +85,10 @@ export default function SignInPage() {
                             <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                               or
                             </p>
-                            <Clerk.Field name="identifier" className="space-y-2">
+                            <Clerk.Field
+                              name="identifier"
+                              className="space-y-2"
+                            >
                               <Clerk.Label asChild>
                                 <Label>Email address</Label>
                               </Clerk.Label>
@@ -102,15 +107,17 @@ export default function SignInPage() {
                                       return isLoading ? (
                                         <Icons.spinner className="size-4 animate-spin" />
                                       ) : (
-                                        'Continue'
-                                      )
+                                        "Continue"
+                                      );
                                     }}
                                   </Clerk.Loading>
                                 </Button>
                               </SignIn.Action>
 
                               <Button variant="link" size="sm" asChild>
-                                <Link href="/sign-up">Don&apos;t have an account? Sign up</Link>
+                                <Link href="/sign-up">
+                                  Don&apos;t have an account? Sign up
+                                </Link>
                               </Button>
                             </div>
                           </CardFooter>
@@ -122,17 +129,26 @@ export default function SignInPage() {
                           <CardHeader>
                             <CardTitle>Use another method</CardTitle>
                             <CardDescription>
-                              Facing issues? You can use any of these methods to sign in.
+                              Facing issues? You can use any of these methods to
+                              sign in.
                             </CardDescription>
                           </CardHeader>
                           <CardContent className="grid gap-y-4">
                             <SignIn.SupportedStrategy name="email_code" asChild>
-                              <Button type="button" variant="link" disabled={isGlobalLoading}>
+                              <Button
+                                type="button"
+                                variant="link"
+                                disabled={isGlobalLoading}
+                              >
                                 Email code
                               </Button>
                             </SignIn.SupportedStrategy>
                             <SignIn.SupportedStrategy name="password" asChild>
-                              <Button type="button" variant="link" disabled={isGlobalLoading}>
+                              <Button
+                                type="button"
+                                variant="link"
+                                disabled={isGlobalLoading}
+                              >
                                 Password
                               </Button>
                             </SignIn.SupportedStrategy>
@@ -146,8 +162,8 @@ export default function SignInPage() {
                                       return isLoading ? (
                                         <Icons.spinner className="size-4 animate-spin" />
                                       ) : (
-                                        'Go back'
-                                      )
+                                        "Go back"
+                                      );
                                     }}
                                   </Clerk.Loading>
                                 </Button>
@@ -170,7 +186,10 @@ export default function SignInPage() {
                               </p>
                             </CardHeader>
                             <CardContent className="grid gap-y-4">
-                              <Clerk.Field name="password" className="space-y-2">
+                              <Clerk.Field
+                                name="password"
+                                className="space-y-2"
+                              >
                                 <Clerk.Label asChild>
                                   <Label>Password</Label>
                                 </Clerk.Label>
@@ -189,14 +208,21 @@ export default function SignInPage() {
                                         return isLoading ? (
                                           <Icons.spinner className="size-4 animate-spin" />
                                         ) : (
-                                          'Continue'
-                                        )
+                                          "Continue"
+                                        );
                                       }}
                                     </Clerk.Loading>
                                   </Button>
                                 </SignIn.Action>
-                                <SignIn.Action navigate="choose-strategy" asChild>
-                                  <Button type="button" size="sm" variant="link">
+                                <SignIn.Action
+                                  navigate="choose-strategy"
+                                  asChild
+                                >
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="link"
+                                  >
                                     Use another method
                                   </Button>
                                 </SignIn.Action>
@@ -218,7 +244,9 @@ export default function SignInPage() {
                             </CardHeader>
                             <CardContent className="grid gap-y-4">
                               <Clerk.Field name="code">
-                                <Clerk.Label className="sr-only">Email verification code</Clerk.Label>
+                                <Clerk.Label className="sr-only">
+                                  Email verification code
+                                </Clerk.Label>
                                 <div className="grid gap-y-2 items-center justify-center">
                                   <div className="flex justify-center text-center">
                                     <Clerk.Input
@@ -233,7 +261,7 @@ export default function SignInPage() {
                                           >
                                             {value}
                                           </div>
-                                        )
+                                        );
                                       }}
                                     />
                                   </div>
@@ -245,7 +273,10 @@ export default function SignInPage() {
                                     fallback={({ resendableAfter }) => (
                                       <Button variant="link" size="sm" disabled>
                                         Didn&apos;t receive a code? Resend (
-                                        <span className="tabular-nums">{resendableAfter}</span>)
+                                        <span className="tabular-nums">
+                                          {resendableAfter}
+                                        </span>
+                                        )
                                       </Button>
                                     )}
                                   >
@@ -265,13 +296,16 @@ export default function SignInPage() {
                                         return isLoading ? (
                                           <Icons.spinner className="size-4 animate-spin" />
                                         ) : (
-                                          'Continue'
-                                        )
+                                          "Continue"
+                                        );
                                       }}
                                     </Clerk.Loading>
                                   </Button>
                                 </SignIn.Action>
-                                <SignIn.Action navigate="choose-strategy" asChild>
+                                <SignIn.Action
+                                  navigate="choose-strategy"
+                                  asChild
+                                >
                                   <Button size="sm" variant="link">
                                     Use another method
                                   </Button>
@@ -308,10 +342,5 @@ export default function SignInPage() {
         </div>
       </div>
     </>
-
-
-
-
-    
   );
 }
