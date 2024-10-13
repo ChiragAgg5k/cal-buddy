@@ -20,7 +20,6 @@ const navLinks: NavLink[] = [
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640) {
@@ -44,7 +43,7 @@ export default function Navigation() {
           duration={500}
           onClick={() => setIsMenuOpen(false)}
           className={`
-            font-medium hover:underline underline-offset-4 cursor-pointer
+            font-medium hover:underline underline-offset-4 cursor-pointer dark:text-white
             ${
               isMobile
                 ? "text-lg text-white hover:text-white-600 mb-4"
@@ -59,7 +58,7 @@ export default function Navigation() {
         <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
           <p
             className={`
-              font-medium hover:underline underline-offset-4 hover:cursor-pointer
+              font-medium hover:underline underline-offset-4 hover:cursor-pointer dark:text-white
               ${
                 isMobile
                   ? "text-lg text-white hover:text-white-600 mb-4"
@@ -90,10 +89,13 @@ export default function Navigation() {
   );
 
   return (
-    <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm">
+    <header
+      className={`dark:bg-gray-800 bg-white px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full z-50 shadow-sm 
+      `}
+    >
       <Link className="flex items-center justify-center" href="#">
         <Calendar className="h-6 w-6 text-black-600" />
-        <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter">
+        <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter dark:text-white">
           Cal Buddy
         </span>
       </Link>
