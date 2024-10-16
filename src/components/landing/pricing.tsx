@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { Check } from "lucide-react";
 import { useEffect } from "react";
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-AOS.init();
 
 const pricingPlans = [
   {

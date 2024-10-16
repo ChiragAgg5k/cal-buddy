@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import { HeroText } from "./hero-text";
 
@@ -25,9 +25,9 @@ export default function HeroSection() {
               </Link>
             </SignedIn>
             <SignedOut>
-              <SignInButton mode="modal">
+              <Link href="/sign-up">
                 <Button>Get Started</Button>
-              </SignInButton>
+              </Link>
             </SignedOut>
             <Button variant="outline">Learn More</Button>
           </div>

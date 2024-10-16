@@ -11,7 +11,7 @@ import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 import { EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import FullCalendar from "@fullcalendar/react";
-import googleCalendarPlugin from '@fullcalendar/google-calendar';
+import googleCalendarPlugin from "@fullcalendar/google-calendar";
 import { useEffect, useState } from "react";
 
 type Event = {
@@ -401,7 +401,9 @@ export default function SmartCalendar({
       <FullCalendar
         plugins={[dayGridPlugin, googleCalendarPlugin]}
         initialView="dayGridMonth"
-        googleCalendarApiKey={process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY"]}
+        googleCalendarApiKey={
+          process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY"]
+        }
         events={{
           googleCalendarId: process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_ID"],
         }}

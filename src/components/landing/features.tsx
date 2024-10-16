@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { Clock, MessageSquare, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import { Clock, MessageSquare, Zap } from "lucide-react";
 
 const features = [
   {
@@ -24,18 +24,18 @@ const features = [
 ];
 
 const fadeInAnimation = {
-  initial: { 
+  initial: {
     opacity: 0,
-    y: 100
+    y: 100,
   },
   animate: (index: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.1 * index,
+      delay: 0.5 * index,
     },
   }),
-}
+};
 
 export default function FeaturesSection() {
   return (
@@ -49,8 +49,8 @@ export default function FeaturesSection() {
         </h2>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               className="flex flex-col items-center text-center"
               variants={fadeInAnimation}
               initial="initial"

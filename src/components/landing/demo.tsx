@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import SmartCalendar from "@/components/smart-calendar";
 import { motion } from "framer-motion";
@@ -27,18 +27,18 @@ const chatMessages = [
 ];
 
 const fadeInAnimation = {
-  initial: { 
+  initial: {
     opacity: 0,
-    y: 100
+    y: 100,
   },
   animate: (index: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: 1.5 * index,
+      delay: 1 * index,
     },
   }),
-}
+};
 
 export default function DemoSection() {
   return (
@@ -66,14 +66,11 @@ export default function DemoSection() {
                 custom={index}
                 viewport={{ once: true }}
               >
-                {/* <p className="font-medium">
-                  {msg.type === "user" ? "You: " : "Cal Buddy: "}
-                  {msg.message}
-                </p> */}
-                <TypingAnimation 
+                <TypingAnimation
                   className="font-medium text-base"
                   text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${msg.message}`}
-                  duration={msg.type === "user" ? 20 : 18}
+                  // duration={msg.type === "user" ? 20 : 18}
+                  duration={index * 20}
                 />
               </motion.div>
             ))}
