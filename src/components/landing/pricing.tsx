@@ -5,6 +5,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Check } from "lucide-react";
 import { useEffect } from "react";
+import { Toaster, toast } from "sonner"; // Import Sonner components
 
 const pricingPlans = [
   {
@@ -49,11 +50,23 @@ export default function PricingSection() {
     AOS.init();
   }, []);
 
+  // Function to handle pricing plan click
+  const handlePlanClick = (planTitle: string) => {
+    toast(
+      <div>
+        <h3>It's Free!</h3>
+        <p>Cal Buddy is completely free to use... (for now) :D</p>
+      </div>
+    );
+  };
+
   return (
     <section
       id="pricing"
       className="w-full flex flex-col items-center justify-center py-12 md:py-24 lg:py-32 bg-muted/50"
     >
+      <Toaster position="top-right" />{" "}
+      {/* Add Toaster for displaying notifications */}
       <div className="container px-4 md:px-6">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
           Pricing Plans
@@ -88,7 +101,11 @@ export default function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <Button className="mt-auto" disabled={plan.isDisabled}>
+              <Button
+                className="mt-auto"
+                disabled={plan.isDisabled}
+                onClick={() => handlePlanClick(plan.title)} // Handle click to show notification
+              >
                 {plan.buttonText}
               </Button>
             </div>
