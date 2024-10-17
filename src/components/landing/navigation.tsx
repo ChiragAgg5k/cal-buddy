@@ -1,8 +1,8 @@
 "use client";
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
+import { ThemeMode } from "@/lib/themeModeUtil";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { Calendar, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
@@ -20,7 +20,6 @@ const navLinks: NavLink[] = [
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640) {
@@ -93,10 +92,13 @@ export default function Navigation() {
   );
 
   return (
-    <header className="px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full bg-white z-50 shadow-sm">
-      <Link className="flex items-center justify-center" href="/">
-        <Image src={"/logo.png"} width={40} height={40} alt="Logo" />
-        <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter">
+    <header
+      className={`dark:bg-gray-800 bg-white px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full z-50 shadow-sm 
+      `}
+    >
+      <Link className="flex items-center justify-center" href="#">
+        <Calendar className="h-6 w-6 text-black-600" />
+        <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter dark:text-white">
           Cal Buddy
         </span>
       </Link>
@@ -124,6 +126,7 @@ export default function Navigation() {
       <nav className="ml-auto flex flex-row items-center hidden sm:flex gap-4 sm:gap-6">
         <NavLinks />
       </nav>
+      <ThemeMode />
     </header>
   );
 }

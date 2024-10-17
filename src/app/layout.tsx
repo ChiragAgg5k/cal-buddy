@@ -6,6 +6,7 @@ import "@copilotkit/react-ui/styles.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,17 +37,23 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <CopilotKit runtimeUrl="/api/copilotkit">
-            <Navigation />
-            {children}
-            <CopilotPopup
-              labels={{
-                title: "Cal Buddy 🗓️",
-                initial:
-                  "Hello! I'm your Cal Buddy assistant. How can I help you today?",
-              }}
-            />
-          </CopilotKit>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <CopilotKit runtimeUrl="/api/copilotkit">
+              {children}
+              <CopilotPopup
+                labels={{
+                  title: "Cal Buddy 🗓️",
+                  initial:
+                    "Hello! I'm your Cal Buddy assistant. How can I help you today?",
+                }}
+              />
+            </CopilotKit>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
