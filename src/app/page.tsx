@@ -2,13 +2,12 @@ import CTASection from "@/components/landing/cta";
 import DemoSection from "@/components/landing/demo";
 import FeaturesSection from "@/components/landing/features";
 import HeroSection from "@/components/landing/hero";
-import Navigation from "@/components/landing/navigation";
 import PricingSection from "@/components/landing/pricing";
 import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Cal Buddy - Your Smart Calendar Assistant",
+  title: "Cal Buddy",
   description:
     "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
   keywords: [
@@ -36,7 +35,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Navigation />
       <main className="flex-1">
         <HeroSection />
         <FeaturesSection />
@@ -44,15 +42,23 @@ export default function Home() {
         <PricingSection />
         <CTASection />
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          © 2024 Cal Buddy. All rights reserved.
-        </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
+      <footer className="w-full py-6 px-4 md:px-6 border-t bg-white text-gray  flex flex-col items-center justify-center space-y-2 sm:space-y-0 sm:flex-row sm:justify-between">
+        <div className="text-center">
+          <p className="text-sm">© 2024 Cal Buddy. All rights reserved.</p>
+        </div>
+
+        <nav className="flex gap-4 sm:gap-6">
+          <Link
+            href="#"
+            className="text-sm link-underline link-underline-black  underline-offset-4 focus:outline-none"
+          >
             Terms of Service
           </Link>
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
+
+          <Link
+            href="#"
+            className="text-sm link-underline link-underline-black  underline-offset-4 focus:outline-none"
+          >
             Privacy
           </Link>
         </nav>

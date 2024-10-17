@@ -50,16 +50,28 @@ git clone https://github.com/ChiragAgg5k/cal-buddy.git
 cd cal-buddy
 ```
 
-4. Install dependencies:
+4. Create a `.env.local` file in the root directory and add the following content:
 
-```bash
-npm install
+```
+GROQ_API_KEY=<GROQ_API_KEY>
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<CLERK_PUBLISHABLE_KEY>
+CLERK_SECRET_KEY=<CLERK_SECRET_KEY>
 ```
 
-5. Start the development server:
+Replace `<GROQ_API_KEY>`, `<CLERK_PUBLISHABLE_KEY>`, and `<CLERK_SECRET_KEY>` with your own values.
+
+5. Install dependencies:
 
 ```bash
-npm run dev
+pnpm install
+```
+
+The project uses [pnpm](https://pnpm.io/) as the package manager. But you can use any other package manager of your choice like `npm` or `yarn`.
+
+6. Start the development server:
+
+```bash
+pnpm dev
 ```
 
 The application will be available at http://localhost:3000.

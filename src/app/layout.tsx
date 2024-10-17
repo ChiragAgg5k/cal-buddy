@@ -1,3 +1,4 @@
+import Navigation from "@/components/landing/navigation";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
@@ -20,7 +21,9 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Cal Buddy",
-  description: "Your Smart Calendar Assistant, Powered by CopilotKit",
+  description:
+    "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
+  icons: ["/logo.png"],
 };
 
 export default function RootLayout({

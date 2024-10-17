@@ -43,7 +43,7 @@ export default function Navigation() {
           duration={500}
           onClick={() => setIsMenuOpen(false)}
           className={`
-            font-medium hover:underline underline-offset-4 cursor-pointer dark:text-white
+            font-medium link-underline link-underline-black underline-offset-4 cursor-pointer
             ${
               isMobile
                 ? "text-lg text-white hover:text-white-600 mb-4"
@@ -55,26 +55,25 @@ export default function Navigation() {
         </ScrollLink>
       ))}
       <SignedOut>
-        <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
-          <p
-            className={`
-              font-medium hover:underline underline-offset-4 hover:cursor-pointer dark:text-white
+        <Link
+          href="/sign-in"
+          className={`
+              font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
               ${
                 isMobile
-                  ? "text-lg text-white hover:text-white-600 mb-4"
+                  ? "text-lg text-white hover:text-black-600 mb-4"
                   : "text-sm text-gray-800 hover:text-black-600"
               }
             `}
-          >
-            Sign In
-          </p>
-        </SignInButton>
+        >
+          Sign In
+        </Link>
       </SignedOut>
       <SignedIn>
         <Link
           href="/dashboard"
           className={`
-            font-medium hover:underline underline-offset-4
+            font-medium link-underline link-underline-black underline-offset-4
             ${
               isMobile
                 ? "text-lg text-white hover:text-black-600 mb-4"
@@ -84,6 +83,10 @@ export default function Navigation() {
         >
           Dashboard
         </Link>
+      </SignedIn>
+
+      <SignedIn>
+        <UserButton userProfileMode="modal" />
       </SignedIn>
     </>
   );
@@ -120,7 +123,7 @@ export default function Navigation() {
         </nav>
       )}
 
-      <nav className="ml-auto hidden sm:flex gap-4 sm:gap-6">
+      <nav className="ml-auto flex flex-row items-center hidden sm:flex gap-4 sm:gap-6">
         <NavLinks />
       </nav>
       <ThemeMode />

@@ -1,5 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { Check } from "lucide-react";
+import { useEffect } from "react";
 
 const pricingPlans = [
   {
@@ -40,6 +45,10 @@ const pricingPlans = [
 ];
 
 export default function PricingSection() {
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <section
       id="pricing"
@@ -56,6 +65,8 @@ export default function PricingSection() {
               className={`flex flex-col p-6 bg-white dark:bg-gray-900 rounded-lg shadow-lg ${
                 plan.isPopular ? "border-2 border-primary" : ""
               }`}
+              data-aos="flip-left"
+              data-aos-delay={300 * index}
             >
               <h3 className="text-2xl font-bold text-center mb-4">
                 {plan.title}
