@@ -10,8 +10,8 @@ import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
 import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 import { EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import FullCalendar from "@fullcalendar/react";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
+import FullCalendar from "@fullcalendar/react";
 import { useEffect, useState } from "react";
 
 type Event = {

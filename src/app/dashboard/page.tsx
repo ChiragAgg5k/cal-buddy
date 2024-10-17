@@ -303,7 +303,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex min-h-screen bg-muted/50">
       <main className="flex-1 p-6 overflow-y-auto">
         <div className="mx-auto space-y-6">
           <div className="grid md:grid-cols-5 gap-6 mt-16">

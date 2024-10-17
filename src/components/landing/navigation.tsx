@@ -1,8 +1,9 @@
 "use client";
 
 import { ThemeMode } from "@/lib/themeModeUtil";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { Calendar, Menu, X } from "lucide-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
@@ -44,11 +45,7 @@ export default function Navigation() {
           onClick={() => setIsMenuOpen(false)}
           className={`
             font-medium link-underline link-underline-black underline-offset-4 cursor-pointer
-            ${
-              isMobile
-                ? "text-lg text-white hover:text-white-600 mb-4"
-                : "text-sm text-gray-800 hover:text-black-600"
-            }
+            ${isMobile ? "text-lg mb-4" : "text-sm"}
           `}
         >
           {link.label}
@@ -59,11 +56,7 @@ export default function Navigation() {
           href="/sign-in"
           className={`
               font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
-              ${
-                isMobile
-                  ? "text-lg text-white hover:text-black-600 mb-4"
-                  : "text-sm text-gray-800 hover:text-black-600"
-              }
+              ${isMobile ? "text-lg mb-4" : "text-sm"}
             `}
         >
           Sign In
@@ -74,11 +67,7 @@ export default function Navigation() {
           href="/dashboard"
           className={`
             font-medium link-underline link-underline-black underline-offset-4
-            ${
-              isMobile
-                ? "text-lg text-white hover:text-black-600 mb-4"
-                : "text-sm text-gray-800 hover:text-black-600"
-            }
+            ${isMobile ? "text-lg mb-4" : "text-sm"}
           `}
         >
           Dashboard
@@ -93,27 +82,26 @@ export default function Navigation() {
 
   return (
     <header
-      className={`dark:bg-gray-800 bg-white px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full z-50 shadow-sm 
-      `}
+      className={`bg-background border-b px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full z-50 shadow-sm`}
     >
-      <Link className="flex items-center justify-center" href="#">
-        <Calendar className="h-6 w-6 text-black-600" />
-        <span className="ml-2 text-xl font-bold text-black leading-snug tracking-tighter dark:text-white">
+      <Link className="flex items-center justify-center" href="/">
+        <Image src={"/logo.png"} alt="logo" width={40} height={40} />
+        <span className="ml-2 text-xl font-bold leading-snug tracking-tighter">
           Cal Buddy
         </span>
       </Link>
 
       <button
-        className="ml-auto sm:hidden"
+        className="ml-auto sm:hidden z-50"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label={
           isMenuOpen ? "Close Navigation Menu" : "Open Navigation Menu"
         }
       >
         {isMenuOpen ? (
-          <X className="h-6 w-6 text-black-600" />
+          <X className="h-6 w-6 text-background" />
         ) : (
-          <Menu className="h-6 w-6 text-black-600" />
+          <Menu className="h-6 w-6" />
         )}
       </button>
 

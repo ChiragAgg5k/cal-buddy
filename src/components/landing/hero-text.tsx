@@ -1,6 +1,6 @@
 "use client";
+import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { motion } from "framer-motion";
-import { HeroHighlight, Highlight } from "../ui/hero-highlight";
 
 export function HeroText() {
   return (
@@ -21,9 +21,7 @@ export function HeroText() {
         className="text-3xl font-bold leading-snug tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none"
       >
         Meet Cal Buddy:
-        <Highlight className="text-black dark:text-white">
-          Your Smart Calendar Assistant
-        </Highlight>
+        <Highlight className="">Your Smart Calendar Assistant</Highlight>
       </motion.h1>
     </HeroHighlight>
   );

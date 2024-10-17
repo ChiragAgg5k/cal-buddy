@@ -1,4 +1,5 @@
 import Navigation from "@/components/landing/navigation";
+import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
@@ -6,7 +7,6 @@ import "@copilotkit/react-ui/styles.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,6 +44,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <CopilotKit runtimeUrl="/api/copilotkit">
+              <Navigation />
               {children}
               <CopilotPopup
                 labels={{

@@ -57,7 +57,7 @@ export default function DemoSection() {
                 key={index}
                 className={`p-4 ${
                   msg.type === "user"
-                    ? "bg-gray-100 dark:bg-gray-800"
+                    ? "bg-muted"
                     : "bg-primary text-primary-foreground"
                 } rounded-lg`}
                 variants={fadeInAnimation}
@@ -69,7 +69,6 @@ export default function DemoSection() {
                 <TypingAnimation
                   className="font-medium text-base"
                   text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${msg.message}`}
-                  // duration={msg.type === "user" ? 20 : 18}
                   duration={index * 20}
                 />
               </motion.div>

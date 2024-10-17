@@ -1,23 +1,23 @@
 "use client";
 
-import * as React from "react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import SunSVG from "../../assets/svg/theme/sun";
-import MoonSVG from "../../assets/svg/theme/moon";
 import { THEME_MODE } from "./constants";
 
 export function ThemeMode() {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="ml-6 dark:bg-white">
+    <div className="ml-6 text-foreground hover:cursor-pointer">
       {theme === THEME_MODE.DARK ? (
-        <MoonSVG
+        <Moon
+          size={20}
           onClick={() => {
             setTheme(THEME_MODE.LIGHT);
           }}
         />
       ) : (
-        <SunSVG
+        <Sun
+          size={20}
           onClick={() => {
             setTheme(THEME_MODE.DARK);
           }}

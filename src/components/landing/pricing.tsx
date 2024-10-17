@@ -52,7 +52,7 @@ export default function PricingSection() {
   return (
     <section
       id="pricing"
-      className="w-full flex flex-col items-center justify-center py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800"
+      className="w-full flex flex-col items-center justify-center py-12 md:py-24 lg:py-32 bg-muted/50"
     >
       <div className="container px-4 md:px-6">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
@@ -62,7 +62,7 @@ export default function PricingSection() {
           {pricingPlans.map((plan, index) => (
             <div
               key={index}
-              className={`flex flex-col p-6 bg-white dark:bg-gray-900 rounded-lg shadow-lg ${
+              className={`flex flex-col p-6 bg-background rounded-lg shadow-lg ${
                 plan.isPopular ? "border-2 border-primary" : ""
               }`}
               data-aos="flip-left"
