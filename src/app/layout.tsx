@@ -1,10 +1,10 @@
+import NextTopLoader from "nextjs-toploader";
 import Navigation from "@/components/landing/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 import "@copilotkit/react-ui/styles.css";
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -19,7 +19,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Cal Buddy",
   description:
     "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
@@ -43,6 +43,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <NextTopLoader color="#000000" showSpinner={false} />
             <CopilotKit runtimeUrl="/api/copilotkit">
               <Navigation />
               {children}
