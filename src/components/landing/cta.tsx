@@ -3,11 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { toast } from "sonner"; // Import the toast function
 
 export default function CTASection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+
+    // Display toast notification for email submission
+    toast(
+      <div>
+        <h3>Coming Soon</h3>
+        <p>You can subscribe to the newsletter very soon in the future.</p>
+      </div>
+    );
   };
 
   return (
