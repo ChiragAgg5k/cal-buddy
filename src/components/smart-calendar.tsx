@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useUser } from '@clerk/nextjs';
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
 import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
 import { EventClickArg } from "@fullcalendar/core";
@@ -49,6 +50,8 @@ export default function SmartCalendar({
   addDefaultEvents?: boolean;
 }) {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const { user } = useUser();
+
   const [events, setEvents] = useState<Event[]>(
     addDefaultEvents
       ? [
@@ -405,8 +408,9 @@ export default function SmartCalendar({
           process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY"]
         }
         events={{
-          googleCalendarId: process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_ID"],
+          googleCalendarId: user?.emailAddresses[0].emailAddress,
         }}
+        weekends={true}
         eventClick={handleEventClick}
         eventDisplay="block"
       />
