@@ -18,7 +18,7 @@ export function HeroText() {
           duration: 0.5,
           ease: [0.4, 0.0, 0.2, 1],
         }}
-        className="text-3xl font-bold leading-snug tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none"
+        className="text-3xl font-bold max-w-5xl leading-snug tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none"
       >
         Meet Cal Buddy:
         <Highlight className="">Your Smart Calendar Assistant</Highlight>

@@ -46,7 +46,9 @@ const pricingPlans = [
 
 export default function PricingSection() {
   useEffect(() => {
-    AOS.init();
+    AOS.init({
+      once: true,
+    });
   }, []);
 
   return (

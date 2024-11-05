@@ -1,23 +1,25 @@
 "use client";
 
+import { CalendarCogIcon } from "@/components/icons/calendar-cog";
+import { ClockIcon } from "@/components/icons/clock";
 import { motion } from "framer-motion";
-import { Clock, MessageSquare, Zap } from "lucide-react";
+import { GitPullRequestIcon } from "../icons/git-pull-request";
 
 const features = [
   {
-    icon: MessageSquare,
+    icon: CalendarCogIcon,
     title: "Chat with Your Calendar",
     description:
       "Interact with a smart chatbot to manage your schedule effortlessly.",
   },
   {
-    icon: Clock,
+    icon: ClockIcon,
     title: "Smart Scheduling",
     description:
       "Let AI find the perfect time slots for your tasks and meetings.",
   },
   {
-    icon: Zap,
+    icon: GitPullRequestIcon,
     title: "Prompt-Powered Tasks",
     description: "Create and manage tasks using natural language prompts.",
   },
@@ -58,8 +60,10 @@ export default function FeaturesSection() {
               custom={index}
               viewport={{ once: true }}
             >
-              <feature.icon className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+              <feature.icon />
+              <h3 className="md:text-xl text-lg font-bold mb-2">
+                {feature.title}
+              </h3>
               <p className="text-muted-foreground">{feature.description}</p>
             </motion.div>
           ))}

@@ -67,7 +67,7 @@ export default function DemoSection() {
                 viewport={{ once: true }}
               >
                 <TypingAnimation
-                  className="font-medium text-base"
+                  className="font-medium text-sm md:text-base"
                   text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${msg.message}`}
                   duration={index * 20}
                 />
@@ -75,7 +75,7 @@ export default function DemoSection() {
             ))}
           </div>
           <div className="w-full lg:w-1/2">
-            <SmartCalendar />
+            <SmartCalendar addDefaultEvents={true} />
           </div>
         </div>
       </div>
