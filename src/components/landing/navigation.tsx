@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeMode } from "@/lib/themeModeUtil";
+import { ThemeMode } from "@/components/theme-mode-util";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
