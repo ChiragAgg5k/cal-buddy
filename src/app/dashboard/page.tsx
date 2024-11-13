@@ -307,7 +307,7 @@ export default function Dashboard() {
             </h2>
             <p className="mb-2 text-sm text-muted-foreground text-start">
               This dashboard provides you with a centralized view of your tasks,
-              recent activity, and a smart calendar. Let's take a quick tour:
+              recent activity, and a smart calendar. Let&apos;s take a quick tour:
             </p>
             <div className="space-y-4">
               <div className="flex flex-col p-4 border-b">
@@ -333,7 +333,7 @@ export default function Dashboard() {
               </div>
             </div>
             <Button className="w-full mt-4" onClick={handleCloseOnboarding}>
-              Got it, let's get started!
+              Got it, let&apos;s get started!
             </Button>
           </div>
         </div>
