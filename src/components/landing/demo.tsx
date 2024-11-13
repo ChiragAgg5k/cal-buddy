@@ -1,7 +1,7 @@
 "use client";
 
 import SmartCalendar from "@/components/smart-calendar";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import TypingAnimation from "../ui/typing-animation";
 
 const chatMessages = [
@@ -29,15 +29,24 @@ const chatMessages = [
 const fadeInAnimation = {
   initial: {
     opacity: 0,
-    y: 100,
+    y: 50,
   },
-  animate: (index: number) => ({
+  animate: {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 1 * index,
+      duration: 0.5,
+      ease: "easeOut",
     },
-  }),
+  },
+  exit: {
+    opacity: 0,
+    y: 50,
+    transition: {
+      duration: 0.3,
+      ease: "easeIn",
+    },
+  },
 };
 
 export default function DemoSection() {
@@ -52,30 +61,33 @@ export default function DemoSection() {
         </h2>
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
           <div className="w-full lg:w-1/2 space-y-4">
-            {chatMessages.map((msg, index) => (
-              <motion.div
-                key={index}
-                className={`p-4 ${
-                  msg.type === "user"
-                    ? "bg-muted"
-                    : "bg-primary text-primary-foreground"
-                } rounded-lg`}
-                variants={fadeInAnimation}
-                initial="initial"
-                whileInView="animate"
-                custom={index}
-                viewport={{ once: true }}
-              >
-                <TypingAnimation
-                  className="font-medium text-sm md:text-base"
-                  text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${msg.message}`}
-                  duration={index * 20}
-                />
-              </motion.div>
-            ))}
+            <AnimatePresence>
+              {chatMessages.map((msg, index) => (
+                <motion.div
+                  key={index}
+                  className={`p-4 ${
+                    msg.type === "user"
+                      ? "bg-muted"
+                      : "bg-primary text-primary-foreground"
+                  } rounded-lg`}
+                  variants={fadeInAnimation}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <TypingAnimation
+                    className="font-medium text-sm md:text-base"
+                    text={`${msg.type === "user" ? "You: " : "Cal Buddy: "} ${
+                      msg.message
+                    }`}
+                    duration={20 + index * 5}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
           <div className="w-full lg:w-1/2">
-            <SmartCalendar addDefaultEvents={true} />
+            <SmartCalendar addDefaultEvents aria-label="Calendar component" />
           </div>
         </div>
       </div>

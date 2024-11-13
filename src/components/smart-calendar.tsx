@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Dialog,
   DialogContent,
@@ -18,14 +16,25 @@ type Event = {
   id: string;
   title: string;
   date: string;
+  time?: string;
   color?: string;
   description?: string;
 };
 
-const parseDate = (dateString: string): Date | null => {
+const parseDate = (
+  dateString: string,
+  timeString?: string,
+): { date: Date; time: string | undefined } => {
   let date = new Date(dateString);
+  let time: string | undefined;
+
   if (!isNaN(date.getTime())) {
-    return date;
+    if (timeString) {
+      const [hours, minutes] = timeString.split(":").map(Number);
+      date.setHours(hours, minutes);
+      time = timeString;
+    }
+    return { date, time };
   }
 
   const parts = dateString.split("-");
@@ -36,11 +45,16 @@ const parseDate = (dateString: string): Date | null => {
       parseInt(parts[2]),
     );
     if (!isNaN(date.getTime())) {
-      return date;
+      if (timeString) {
+        const [hours, minutes] = timeString.split(":").map(Number);
+        date.setHours(hours, minutes);
+        time = timeString;
+      }
+      return { date, time };
     }
   }
 
-  return null;
+  return { date: new Date(), time: undefined };
 };
 
 export default function SmartCalendar({
@@ -59,6 +73,7 @@ export default function SmartCalendar({
             date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14)
               .toISOString()
               .split("T")[0],
+            time: "10:00",
             description: "Discuss project progress and next steps.",
             color: "#03A9F4",
           },
@@ -68,6 +83,7 @@ export default function SmartCalendar({
             date: new Date(Date.now() + 1000 * 60 * 60 * 24)
               .toISOString()
               .split("T")[0],
+            time: "14:30",
             description: "Discuss project progress and next steps.",
             color: "#009688",
           },
@@ -77,6 +93,7 @@ export default function SmartCalendar({
             date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 4)
               .toISOString()
               .split("T")[0],
+            time: "18:00",
             description: "Discuss project progress and next steps.",
             color: "#3F51B5",
           },
@@ -99,11 +116,12 @@ export default function SmartCalendar({
   const addEvent = (
     title: string,
     date: string,
+    time?: string,
     description?: string,
     color?: string,
   ) => {
-    const parsedDate = parseDate(date);
-    if (!parsedDate) {
+    const { date: parsedDate, time: parsedTime } = parseDate(date, time);
+    if (isNaN(parsedDate.getTime())) {
       console.error("Invalid date format:", date);
       return;
     }
@@ -112,6 +130,7 @@ export default function SmartCalendar({
       id: Date.now().toString(),
       title,
       date: parsedDate.toISOString().split("T")[0],
+      time: parsedTime,
       description,
       color,
     };
@@ -129,6 +148,113 @@ export default function SmartCalendar({
       return updatedEvents;
     });
   };
+
+  useCopilotReadable({
+    description: "Detailed overview of current calendar events",
+    value: JSON.stringify(
+      events.map((e) => ({
+        id: e.id,
+        title: e.title,
+        date: e.date,
+        time: e.time,
+        description: e.description || "No description provided",
+        color: e.color || "Default color (blue)",
+        formattedDateTime: e.time
+          ? `${new Date(e.date).toLocaleDateString("en-US", { dateStyle: "long" })} at ${e.time}`
+          : new Date(e.date).toLocaleDateString("en-US", { dateStyle: "full" }),
+      })),
+    ),
+  });
+
+  useCopilotReadable({
+    description: "Comprehensive details of the currently selected event",
+    value: selectedEvent
+      ? JSON.stringify({
+          id: selectedEvent.id,
+          title: selectedEvent.title,
+          date: selectedEvent.date,
+          time: selectedEvent.time,
+          description: selectedEvent.description || "No description provided",
+          color: selectedEvent.color || "Default color (blue)",
+          formattedDateTime: selectedEvent.time
+            ? `${new Date(selectedEvent.date).toLocaleDateString("en-US", { dateStyle: "long" })} at ${selectedEvent.time}`
+            : new Date(selectedEvent.date).toLocaleDateString("en-US", {
+                dateStyle: "full",
+              }),
+          daysUntilEvent: Math.ceil(
+            (new Date(selectedEvent.date).getTime() - new Date().getTime()) /
+              (1000 * 3600 * 24),
+          ),
+        })
+      : "No event is currently selected",
+  });
+
+  useCopilotAction({
+    name: "addEvent",
+    description: "Add a new event to the calendar with detailed information",
+    parameters: [
+      {
+        name: "title",
+        type: "string",
+        description: "The title or name of the event (required)",
+        required: true,
+      },
+      {
+        name: "date",
+        type: "string",
+        description: "The date of the event in YYYY-MM-DD format (required)",
+        required: true,
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "The time of the event in HH:MM format (optional)",
+      },
+      {
+        name: "description",
+        type: "string",
+        description: "A detailed description of the event (optional)",
+      },
+      {
+        name: "color",
+        type: "string",
+        description:
+          "The color for the event in hexadecimal format, e.g., '#FF0000' for red (optional, defaults to blue '#2196F3')",
+      },
+    ],
+    handler: ({ title, date, time, description, color }) => {
+      if (!title || !date) {
+        throw new Error(
+          "Both title and date are required for adding an event.",
+        );
+      }
+      const { date: parsedDate, time: parsedTime } = parseDate(date, time);
+      if (isNaN(parsedDate.getTime())) {
+        throw new Error(
+          `Invalid date format: ${date}. Please use YYYY-MM-DD or ISO date string.`,
+        );
+      }
+      addEvent(
+        title,
+        parsedDate.toISOString().split("T")[0],
+        parsedTime,
+        description,
+        color,
+      );
+      return `Event "${title}" successfully added for ${parsedDate.toLocaleDateString("en-US", { dateStyle: "full" })}${parsedTime ? ` at ${parsedTime}` : ""}`;
+    },
+    render: ({ status, args, result }) => (
+      <div className="flex justify-center items-center text-sm">
+        {status !== "complete" && <p>Adding event to calendar...</p>}
+        {status === "complete" && (
+          <div className="flex gap-2">
+            <span>✅</span>
+            <span className="font-semibold">{result}</span>
+          </div>
+        )}
+      </div>
+    ),
+  });
 
   useCopilotReadable({
     description: "Detailed overview of current calendar events",
@@ -188,67 +314,6 @@ export default function SmartCalendar({
       currentTime: new Date().toLocaleTimeString("en-US"),
       currentWeek: `Week ${Math.ceil((new Date().getDate() + new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay()) / 7)} of the year`,
     }),
-  });
-
-  useCopilotAction({
-    name: "addEvent",
-    description: "Add a new event to the calendar with detailed information",
-    parameters: [
-      {
-        name: "title",
-        type: "string",
-        description: "The title or name of the event (required)",
-        required: true,
-      },
-      {
-        name: "date",
-        type: "string",
-        description: "The date of the event in YYYY-MM-DD format (required)",
-        required: true,
-      },
-      {
-        name: "description",
-        type: "string",
-        description: "A detailed description of the event (optional)",
-      },
-      {
-        name: "color",
-        type: "string",
-        description:
-          "The color for the event in hexadecimal format, e.g., '#FF0000' for red (optional, defaults to blue '#2196F3')",
-      },
-      {
-        name: "time",
-        type: "string",
-        description: "The time of the event in HH:MM format (optional)",
-      },
-    ],
-    handler: ({ title, date, description, color }) => {
-      if (!title || !date) {
-        throw new Error(
-          "Both title and date are required for adding an event.",
-        );
-      }
-      const parsedDate = parseDate(date);
-      if (!parsedDate) {
-        throw new Error(
-          `Invalid date format: ${date}. Please use YYYY-MM-DD or ISO date string.`,
-        );
-      }
-      addEvent(title, parsedDate.toISOString(), description, color);
-      return `Event "${title}" successfully added for ${parsedDate.toLocaleDateString("en-US", { dateStyle: "full" })}`;
-    },
-    render: ({ status, args, result }) => (
-      <div className="flex justify-center items-center text-sm">
-        {status !== "complete" && <p>Adding event to calendar...</p>}
-        {status === "complete" && (
-          <div className="flex gap-2">
-            <span>✅</span>
-            <span className="font-semibold">{result}</span>
-          </div>
-        )}
-      </div>
-    ),
   });
 
   useCopilotAction({
@@ -429,7 +494,16 @@ export default function SmartCalendar({
           </DialogHeader>
           <div>
             <p>
-              <strong>Date:</strong> {selectedEvent?.date}
+              <strong>Date:</strong>{" "}
+              {selectedEvent?.time ? (
+                `${new Date(selectedEvent.date).toLocaleDateString("en-US", { dateStyle: "long" })} at ${selectedEvent.time}`
+              ) : selectedEvent ? (
+                new Date(selectedEvent?.date).toLocaleDateString("en-US", {
+                  dateStyle: "full",
+                })
+              ) : (
+                <p>No date available.</p>
+              )}
             </p>
             <p>
               <strong>Description:</strong>{" "}

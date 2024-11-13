@@ -109,7 +109,7 @@ export default function SignUpPage() {
                 }}
               >
                 <Icons.google className="mr-2 size-3" />
-                Sign Up with Google
+                Sign In with Google
               </Button>
             </CardContent>
             <CardFooter className="flex justify-center">

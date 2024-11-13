@@ -106,8 +106,8 @@ export default function TasksComponent({
           </div>
           <ul className="space-y-2">
             {filteredTasks.length === 0 ? (
-              <div className="flex items-center justify-center text-gray-500 mt-12 text-sm">
-                No tasks found
+              <div className="flex flex-col items-center justify-center text-muted-foreground mt-12 text-sm">
+                Oh so empty...
               </div>
             ) : (
               filteredTasks.map((task) => (
@@ -122,7 +122,9 @@ export default function TasksComponent({
                     />
                     <span
                       className={
-                        task.completed ? "line-through text-gray-500" : ""
+                        task.completed
+                          ? "line-through text-muted-foreground"
+                          : ""
                       }
                     >
                       {task.title}

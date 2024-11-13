@@ -38,7 +38,7 @@ export default function RecentActivity({
           {activities.map((activity) => (
             <li key={activity.id} className="flex items-center space-x-3">
               <span
-                className={`w-9 h-9 rounded-full flex items-center justify-center text-white ${
+                className={`w-9 h-9 rounded-full flex items-center justify-center text-background ${
                   activity.type === "comment"
                     ? "bg-primary"
                     : activity.type === "meeting"
@@ -56,7 +56,7 @@ export default function RecentActivity({
               </span>
               <div>
                 <p className="text-sm">{activity.content}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-muted-foreground">
                   {isClient
                     ? activity.timestamp.toLocaleString("en-US")
                     : "Loading..."}

@@ -3,6 +3,7 @@
 import RecentActivity from "@/components/dashboard/recent-activity";
 import TasksComponent from "@/components/dashboard/tasks";
 import SmartCalendar from "@/components/smart-calendar";
+import { Button } from "@/components/ui/button";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
@@ -22,27 +23,6 @@ interface Activity {
   user: string;
   timestamp: Date;
 }
-
-const defaultTasks: Task[] = [
-  {
-    id: "1",
-    title: "Prepare presentation",
-    priority: "high",
-    completed: false,
-  },
-  {
-    id: "2",
-    title: "Review project proposal",
-    priority: "medium",
-    completed: false,
-  },
-  {
-    id: "3",
-    title: "Schedule team meeting",
-    priority: "low",
-    completed: false,
-  },
-];
 
 const defaultActivities: Activity[] = [
   {
@@ -77,7 +57,6 @@ export default function Dashboard() {
     const storedActivities = localStorage.getItem("activities");
 
     if (storedTasks) setTasks(JSON.parse(storedTasks));
-    else setTasks(defaultTasks);
 
     if (storedActivities) setActivities(JSON.parse(storedActivities));
     else setActivities(defaultActivities);
@@ -302,8 +281,64 @@ export default function Dashboard() {
     ),
   });
 
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    // Check if onboarding has been seen before, if not, show it
+    const hasSeenOnboarding = localStorage.getItem("hasSeenOnboarding");
+    console.log(hasSeenOnboarding);
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
+    localStorage.setItem("hasSeenOnboarding", "true");
+  };
+
   return (
     <div className="flex min-h-screen bg-muted/50">
+      {showOnboarding && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+          <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
+            <h2 className="text-2xl font-semibold mb-4 text-start">
+              Welcome to Cal Buddy
+            </h2>
+            <p className="mb-2 text-sm text-muted-foreground text-start">
+              This dashboard provides you with a centralized view of your tasks,
+              recent activity, and a smart calendar. Let's take a quick tour:
+            </p>
+            <div className="space-y-4">
+              <div className="flex flex-col p-4 border-b">
+                <h3 className="text-lg font-semibold">Tasks</h3>
+                <p className="text-sm text-muted-foreground">
+                  Manage your tasks, set priorities, and track their completion
+                  status.
+                </p>
+              </div>
+              <div className="flex flex-col p-4 border-b">
+                <h3 className="text-lg font-semibold">Recent Activity</h3>
+                <p className="text-sm text-muted-foreground">
+                  View a log of recent activities related to your tasks and
+                  projects.
+                </p>
+              </div>
+              <div className="flex flex-col p-4">
+                <h3 className="text-lg font-semibold">Smart Calendar</h3>
+                <p className="text-sm text-muted-foreground">
+                  Keep track of upcoming events and meetings with the integrated
+                  calendar.
+                </p>
+              </div>
+            </div>
+            <Button className="w-full mt-4" onClick={handleCloseOnboarding}>
+              Got it, let's get started!
+            </Button>
+          </div>
+        </div>
+      )}
+
       <main className="flex-1 p-6 overflow-y-auto">
         <div className="mx-auto space-y-6">
           <div className="grid md:grid-cols-5 gap-6 mt-16">

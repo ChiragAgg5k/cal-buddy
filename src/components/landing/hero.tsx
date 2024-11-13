@@ -15,7 +15,7 @@ export default function HeroSection() {
         <div className="flex flex-col items-center space-y-8 text-center">
           <div className="space-y-4">
             <HeroText />
-            <p className="mx-auto max-w-[700px] text-gray-700 md:text-xl dark:text-gray-400">
+            <p className="mx-auto max-w-[700px] md:text-xl text-muted-foreground">
               Schedule, manage, and chat with your calendar. Boost your
               productivity with AI-powered task management.
             </p>
