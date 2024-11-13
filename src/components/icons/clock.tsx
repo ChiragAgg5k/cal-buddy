@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, Transition, useAnimation, Variants } from "framer-motion";
-import { useEffect } from "react";
 
 const handTransition: Transition = {
   duration: 0.6,
@@ -37,17 +36,6 @@ const minuteHandVariants: Variants = {
 
 const ClockIcon = () => {
   const controls = useAnimation();
-
-  useEffect(() => {
-    const animate = async () => {
-      while (true) {
-        await controls.start("animate");
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        await controls.start("normal");
-      }
-    };
-    animate();
-  }, [controls]);
 
   return (
     <div

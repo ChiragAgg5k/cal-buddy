@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
 
 const DURATION = 0.3;
 
@@ -13,16 +12,6 @@ const calculateDelay = (i: number) => {
 
 const GitPullRequestIcon = () => {
   const controls = useAnimation();
-
-  useEffect(() => {
-    const animate = async () => {
-      while (true) {
-        await controls.start("animate");
-        await controls.start("normal");
-      }
-    };
-    animate();
-  }, [controls]);
 
   return (
     <div
