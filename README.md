@@ -54,13 +54,14 @@ cd cal-buddy
 
 ```
 GROQ_API_KEY=<GROQ_API_KEY>
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<CLERK_PUBLISHABLE_KEY>
-CLERK_SECRET_KEY=<CLERK_SECRET_KEY>
+NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY=<GOOGLE_CALENDAR_API_KEY>
+NEXT_PUBLIC_APPWRITE_PROJECT_ID=<APPWRITE_PROJECT_ID>
+NEXT_PUBLIC_SITE_URL=<SITE_URL>
 ```
 
-Replace `<GROQ_API_KEY>`, `<CLERK_PUBLISHABLE_KEY>`, and `<CLERK_SECRET_KEY>` with your own values.
+Replace `<GROQ_API_KEY>`, `<GOOGLE_CALENDAR_API_KEY>`, `<APPWRITE_PROJECT_ID>`, and `<SITE_URL>` with your actual values.
 
-5. Install dependencies:
+1. Install dependencies:
 
 ```bash
 pnpm install
@@ -82,7 +83,6 @@ The application will be available at http://localhost:3000.
 - [![CopilotKit](https://img.shields.io/badge/CopilotKit-007ACC?style=for-the-badge&logo=github&logoColor=white)](https://github.com/features/copilot)
 - [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 - [![ShadCN](https://img.shields.io/badge/ShadCN-000000?style=for-the-badge&logo=shadcn&logoColor=white)](https://ui.shadcn.com/)
-- [![Clerk](https://img.shields.io/badge/Clerk-4B32C3?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.dev/)
 
 ## Contributing
 

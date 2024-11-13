@@ -1,12 +1,13 @@
 "use client";
 
 import { ThemeMode } from "@/components/theme-mode-util";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
+import { useUser } from "../context/auth-provider";
+import { Icons } from "../ui/icons";
 
 type NavLink = {
   to: string;
@@ -21,6 +22,16 @@ const navLinks: NavLink[] = [
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const user = useUser();
+
+  const handleSignOut = async () => {
+    setLoading(true);
+    await user.logout();
+    setLoading(false);
+    setIsMenuOpen(false);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640) {
@@ -40,7 +51,7 @@ export default function Navigation() {
           to={link.to}
           spy={true}
           smooth={true}
-          offset={-64} // Adjust this value based on your header height
+          offset={-64}
           duration={500}
           onClick={() => setIsMenuOpen(false)}
           className={`
@@ -51,7 +62,32 @@ export default function Navigation() {
           {link.label}
         </ScrollLink>
       ))}
-      <SignedOut>
+      {user.current ? (
+        <>
+          <Link
+            href="/dashboard"
+            className={`
+            font-medium link-underline link-underline-black underline-offset-4
+            ${isMobile ? "text-lg mb-4" : "text-sm"}
+          `}
+          >
+            Dashboard
+          </Link>
+          <div
+            className={`
+          font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
+          ${isMobile ? "text-lg mb-4" : "text-sm"}
+        `}
+            onClick={handleSignOut}
+          >
+            {loading ? (
+              <Icons.spinner className="size-4 animate-spin" />
+            ) : (
+              "Sign Out"
+            )}
+          </div>
+        </>
+      ) : (
         <Link
           href="/sign-in"
           className={`
@@ -61,22 +97,7 @@ export default function Navigation() {
         >
           Sign In
         </Link>
-      </SignedOut>
-      <SignedIn>
-        <Link
-          href="/dashboard"
-          className={`
-            font-medium link-underline link-underline-black underline-offset-4
-            ${isMobile ? "text-lg mb-4" : "text-sm"}
-          `}
-        >
-          Dashboard
-        </Link>
-      </SignedIn>
-
-      <SignedIn>
-        <UserButton userProfileMode="modal" />
-      </SignedIn>
+      )}
     </>
   );
 
@@ -106,7 +127,7 @@ export default function Navigation() {
       </button>
 
       {isMenuOpen && (
-        <nav className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex flex-col items-center justify-center sm:hidden">
+        <nav className="fixed text-white top-0 left-0 w-full h-full bg-black bg-opacity-80 flex flex-col items-center justify-center sm:hidden">
           <NavLinks isMobile />
         </nav>
       )}

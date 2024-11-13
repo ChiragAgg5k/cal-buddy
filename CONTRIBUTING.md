@@ -18,11 +18,12 @@ Thank you for your interest in contributing to our project! This document provid
 
    ```
    GROQ_API_KEY=<GROQ_API_KEY>
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<CLERK_PUBLISHABLE_KEY>
-   CLERK_SECRET_KEY=<CLERK_SECRET_KEY>
+   NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY=<GOOGLE_CALENDAR_API_KEY>
+   NEXT_PUBLIC_APPWRITE_PROJECT_ID=<APPWRITE_PROJECT_ID>
+   NEXT_PUBLIC_SITE_URL=<SITE_URL>
    ```
 
-   Replace `<GROQ_API_KEY>`, `<CLERK_PUBLISHABLE_KEY>`, and `<CLERK_SECRET_KEY>` with your own values.
+   Replace `<GROQ_API_KEY>`, `<GOOGLE_CALENDAR_API_KEY>`, `<APPWRITE_PROJECT_ID>`, and `<SITE_URL>` with your actual values.
 
 4. **Install dependencies**
 
