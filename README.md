@@ -17,6 +17,7 @@
   - [Demo](#demo)
   - [Features](#features)
   - [Installation](#installation)
+  - [Containerize it](#containerize-it)
   - [Technologies Used](#technologies-used)
   - [Contributing](#contributing)
   - [License](#license)
@@ -77,6 +78,24 @@ pnpm dev
 
 The application will be available at http://localhost:3000.
 
+## Containerize it
+
+Want to run Cal Buddy in a container? No problem! Here's how you can do it:
+
+1. Build the Docker image:
+
+```bash
+docker build -t cal-buddy .
+```
+
+2. Run the Docker container:
+
+```bash
+docker run -p 3000:3000 cal-buddy
+```
+
+3. Access the application at http://localhost:3000.
+
 ## Technologies Used
 
 - [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
@@ -84,6 +103,8 @@ The application will be available at http://localhost:3000.
 - [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 - [![ShadCN](https://img.shields.io/badge/ShadCN-000000?style=for-the-badge&logo=shadcn&logoColor=white)](https://ui.shadcn.com/)
 - [![Appwrite](https://img.shields.io/badge/Appwrite-F02E65?style=for-the-badge&logo=appwrite&logoColor=white)](https://appwrite.io/)
+- [![Groq](https://img.shields.io/badge/Groq-FF6600?style=for-the-badge&logo=groq&logoColor=black)](https://groq.netlify.app/)
+- [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 ## Contributing
 
