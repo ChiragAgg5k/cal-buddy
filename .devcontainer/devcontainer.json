@@ -1,9 +1,8 @@
 {
     "name": "Cal Buddy Development Container",
-    "image": "node:18",
-    "forwardPorts": [
-      3000
-    ],
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
     "customizations": {
       "vscode": {
         "settings": {
@@ -17,6 +16,5 @@
           "ms-vscode.vscode-typescript-tslint"
         ]
       }
-    },
-    "postCreateCommand": "npm install --prefer-offline"
-  }
+    }
+}
