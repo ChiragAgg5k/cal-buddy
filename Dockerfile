@@ -1,5 +1,5 @@
 # Stage 1: Dependencies
-FROM node:18-alpine AS deps
+FROM node:18 AS deps
 WORKDIR /app
 
 # Copy package files
@@ -37,12 +37,8 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Create non-root user
-RUN addgroup --system --gid 1001 nodejs \
-    && adduser --system --uid 1001 nextjs \
-    && groupadd --gid $USER_GID daytona \
-    && useradd --uid $USER_UID --gid $USER_GID -m daytona \
-    && echo "daytona ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/daytona \
-    && chmod 0440 /etc/sudoers.d/daytona
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
 # Copy necessary files
 COPY --from=builder /app/next.config.mjs ./
