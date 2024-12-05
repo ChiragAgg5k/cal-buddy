@@ -1,5 +1,6 @@
 # Stage 1: Dependencies
 FROM node:18 AS deps
+RUN apt-get update && apt-get install -y sudo
 WORKDIR /app
 
 # Copy package files
