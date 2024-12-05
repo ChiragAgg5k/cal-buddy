@@ -44,7 +44,7 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
   async function loginWithGoogle() {
     await account.createOAuth2Session(
       OAuthProvider.Google,
-      `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`,
+      new URL("/dashboard", window.location.href).toString(),
     );
   }
 

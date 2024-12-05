@@ -39,9 +39,9 @@ You can also find the YouTube video demonstration [here](https://www.youtube.com
 ## Installation using Daytona
 
 1. **Install Daytona**: Follow the [Daytona installation guide](https://www.daytona.io/docs/installation/installation/). Make sure that you have a `provider` installed.
-   
-2. **Create the Workspace**:  
-```bash  
+2. **Create the Workspace**:
+
+```bash
 daytona create https://github.com/ChiragAgg5k/cal-buddy --devcontainer-path=.devcontainer/devcontainer.json
 ```
 
@@ -59,7 +59,6 @@ cd cal-buddy
 GROQ_API_KEY=<GROQ_API_KEY>
 NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY=<GOOGLE_CALENDAR_API_KEY>
 NEXT_PUBLIC_APPWRITE_PROJECT_ID=<APPWRITE_PROJECT_ID>
-NEXT_PUBLIC_SITE_URL=<SITE_URL>
 ```
 
 Replace `<GROQ_API_KEY>`, `<GOOGLE_CALENDAR_API_KEY>`, `<APPWRITE_PROJECT_ID>`, and `<SITE_URL>` with your actual values.
