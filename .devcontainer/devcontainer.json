@@ -1,21 +1,60 @@
 {
-    "name": "Cal Buddy Development Container",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": ".."
-    },
-    "customizations": {
-      "vscode": {
-        "settings": {
-          "terminal.integrated.shell.linux": "/bin/sh",
-          "eslint.enable": true,
-          "prettier.resolveGlobalModules": true
+  "name": "Cal Buddy Development Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "usernamehw.errorlens",
+        "christian-kohler.path-intellisense",
+        "PKief.material-icon-theme",
+        "orta.vscode-jest"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
         },
-        "extensions": [
-          "esbenp.prettier-vscode",
-          "dbaeumer.vscode-eslint",
-          "ms-vscode.vscode-typescript-tslint"
-        ]
+        "eslint.validate": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ],
+        "files.exclude": {
+          "**/.git": true,
+          "**/.svn": true,
+          "**/.hg": true,
+          "**/CVS": true,
+          "**/.DS_Store": true,
+          "**/node_modules": true
+        }
       }
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "remoteUser": "node",
+  "postCreateCommand": "npm install && npm run prepare",
+  "remoteEnv": {
+    "NODE_ENV": "development"
+  },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    }
+  }
 }

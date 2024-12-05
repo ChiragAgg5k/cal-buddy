@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        - NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY=${NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY}
+        - NEXT_PUBLIC_APPWRITE_PROJECT_ID=${NEXT_PUBLIC_APPWRITE_PROJECT_ID}
+        - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    ports:
+      - "3000:3000"
