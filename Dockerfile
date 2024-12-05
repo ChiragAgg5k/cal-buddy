@@ -9,7 +9,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # Stage 2: Builder
-FROM node:18-alpine AS builder
+FROM node:18 AS builder
 WORKDIR /app
 
 # Copy dependencies from deps stage
@@ -30,15 +30,19 @@ ENV GROQ_API_KEY=$GROQ_API_KEY
 RUN npm run build
 
 # Stage 3: Runner
-FROM node:18-alpine AS runner
+FROM node:18 AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Create non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 nextjs \
+    && groupadd --gid $USER_GID daytona \
+    && useradd --uid $USER_UID --gid $USER_GID -m daytona \
+    && echo "daytona ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/daytona \
+    && chmod 0440 /etc/sudoers.d/daytona
 
 # Copy necessary files
 COPY --from=builder /app/next.config.mjs ./

@@ -38,14 +38,16 @@ You can also find the YouTube video demonstration [here](https://www.youtube.com
 
 ## Installation using Daytona
 
-1. **Install Daytona**: Follow the [Daytona installation guide](https://www.daytona.io/docs/installation/installation/).
+1. **Install Daytona**: Follow the [Daytona installation guide](https://www.daytona.io/docs/installation/installation/). Make sure that you have a `provider` installed.
    
 2. **Create the Workspace**:  
 ```bash  
 daytona create https://github.com/ChiragAgg5k/cal-buddy --devcontainer-path=.devcontainer/devcontainer.json
 ```
 
-1. Navigate to the project directory:
+You should get something like: `{"outcome":"success","result":"done"}`
+
+3. Navigate to the project directory:
 
 ```bash
 cd cal-buddy

@@ -1,6 +1,6 @@
 {
     "name": "Cal Buddy Development Container",
-    "image": "node:18-alpine",
+    "image": "node:18",
     "forwardPorts": [
       3000
     ],
