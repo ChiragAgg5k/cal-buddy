@@ -16,7 +16,7 @@
   - [Table of Contents](#table-of-contents)
   - [Demo](#demo)
   - [Features](#features)
-  - [Installation](#installation)
+  - [Installation using Daytona](#installation-using-daytona)
   - [Containerize it](#containerize-it)
   - [Technologies Used](#technologies-used)
   - [Contributing](#contributing)
@@ -36,16 +36,16 @@ You can also find the YouTube video demonstration [here](https://www.youtube.com
 - 📊 Productivity tracking and insights
 - 🔗 Integration with popular calendar services
 
-## Installation
+## Installation using Daytona
 
-1. Ensure you have [Node.js](https://nodejs.org/) and npm installed on your machine.
-2. Clone the repository:
-
-```bash
-git clone https://github.com/ChiragAgg5k/cal-buddy.git
+1. **Install Daytona**: Follow the [Daytona installation guide](https://www.daytona.io/docs/installation/installation/).
+   
+2. **Create the Workspace**:  
+```bash  
+daytona create https://github.com/ChiragAgg5k/cal-buddy --devcontainer-path=.devcontainer/devcontainer.json
 ```
 
-3. Navigate to the project directory:
+1. Navigate to the project directory:
 
 ```bash
 cd cal-buddy

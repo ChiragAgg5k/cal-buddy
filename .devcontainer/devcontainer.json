@@ -1,15 +1,22 @@
 {
-  "name": "Cal Buddy Development Container",
-  "image": "node:18-alpine",
-  "forwardPorts": [3000],
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.shell.linux": "/bin/sh",
-        "eslint.enable": true,
-        "prettier.resolveGlobalModules": true
+    "name": "Cal Buddy Development Container",
+    "image": "node:18-alpine",
+    "forwardPorts": [
+      3000
+    ],
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.shell.linux": "/bin/sh",
+          "eslint.enable": true,
+          "prettier.resolveGlobalModules": true
+        },
+        "extensions": [
+          "esbenp.prettier-vscode",
+          "dbaeumer.vscode-eslint",
+          "ms-vscode.vscode-typescript-tslint"
+        ]
       }
-    }
-  },
-  "postCreateCommand": "npm install --prefer-offline"
-}
+    },
+    "postCreateCommand": "npm install --prefer-offline"
+  }
