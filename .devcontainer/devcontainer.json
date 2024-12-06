@@ -1,59 +1,26 @@
 {
-  "name": "Cal Buddy Development Container",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "name": "Cal Buddy Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node",
+  "forwardPorts": [3000],
   "customizations": {
     "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.autoSave": "onWindowChange",
+        "editor.formatOnSave": true
+      },
       "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
+        "dsznajder.es7-react-js-snippets",
+        "formulahendry.auto-rename-tag",
         "bradlc.vscode-tailwindcss",
-        "usernamehw.errorlens",
         "christian-kohler.path-intellisense",
-        "PKief.material-icon-theme",
-        "orta.vscode-jest"
-      ],
-      "settings": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
-        },
-        "eslint.validate": [
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact"
-        ],
-        "files.exclude": {
-          "**/.git": true,
-          "**/.svn": true,
-          "**/.hg": true,
-          "**/CVS": true,
-          "**/.DS_Store": true,
-          "**/node_modules": true
-        }
-      }
+        "ms-vscode.vscode-typescript-next"
+      ]
     }
   },
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "18",
-      "nodeGypDependencies": true
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
-  "remoteUser": "node",
-  "postCreateCommand": "npm install",
-  "remoteEnv": {
-    "NODE_ENV": "development"
-  },
-  "forwardPorts": [3000],
-  "portsAttributes": {
-    "3000": {
-      "label": "Application",
-      "onAutoForward": "openPreview"
-    }
-  }
+  "postCreateCommand": "npm install"
 }
