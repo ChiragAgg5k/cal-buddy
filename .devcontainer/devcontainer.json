@@ -46,7 +46,7 @@
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
   "remoteUser": "node",
-  "postCreateCommand": "npm install && npm run prepare",
+  "postCreateCommand": "npm install",
   "remoteEnv": {
     "NODE_ENV": "development"
   },
