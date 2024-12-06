@@ -1,8 +1,7 @@
 {
   "name": "Cal Buddy Development Container",
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+    "dockerfile": "Dockerfile"
   },
   "customizations": {
     "vscode": {
