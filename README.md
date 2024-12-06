@@ -47,13 +47,7 @@ daytona create https://github.com/ChiragAgg5k/cal-buddy --devcontainer-path=.dev
 
 You should get something like: `{"outcome":"success","result":"done"}`
 
-3. Navigate to the project directory:
-
-```bash
-cd cal-buddy
-```
-
-4. Create a `.env.local` file in the root directory and add the following content:
+3. Create a `.env.local` file in the root directory and add the following content:
 
 ```
 GROQ_API_KEY=<GROQ_API_KEY>
@@ -63,18 +57,10 @@ NEXT_PUBLIC_APPWRITE_PROJECT_ID=<APPWRITE_PROJECT_ID>
 
 Replace `<GROQ_API_KEY>`, `<GOOGLE_CALENDAR_API_KEY>`, `<APPWRITE_PROJECT_ID>`, and `<SITE_URL>` with your actual values.
 
-1. Install dependencies:
+4. Start the development server:
 
 ```bash
-pnpm install
-```
-
-The project uses [pnpm](https://pnpm.io/) as the package manager. But you can use any other package manager of your choice like `npm` or `yarn`.
-
-6. Start the development server:
-
-```bash
-pnpm dev
+npm run dev
 ```
 
 The application will be available at http://localhost:3000.
