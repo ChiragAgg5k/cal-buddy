@@ -17,7 +17,6 @@
   - [Demo](#demo)
   - [Features](#features)
   - [Installation using Daytona](#installation-using-daytona)
-  - [Containerize it](#containerize-it)
   - [Technologies Used](#technologies-used)
   - [Contributing](#contributing)
   - [License](#license)
@@ -64,24 +63,6 @@ npm run dev
 ```
 
 The application will be available at http://localhost:3000.
-
-## Containerize it
-
-Want to run Cal Buddy in a container? No problem! Here's how you can do it:
-
-1. Build the Docker image:
-
-```bash
-docker build -t cal-buddy .
-```
-
-2. Run the Docker container:
-
-```bash
-docker run -p 3000:3000 cal-buddy
-```
-
-3. Access the application at http://localhost:3000.
 
 ## Technologies Used
 
