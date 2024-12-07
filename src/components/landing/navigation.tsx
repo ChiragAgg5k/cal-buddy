@@ -1,8 +1,7 @@
 "use client";
 
 import { ThemeMode } from "@/components/theme-mode-util";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
+import { Calendar, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
@@ -106,7 +105,7 @@ export default function Navigation() {
       className={`bg-background border-b px-4 lg:px-6 h-16 flex items-center fixed top-0 w-full z-50 shadow-sm`}
     >
       <Link className="flex items-center justify-center" href="/">
-        <Image src={"/logo.png"} alt="logo" width={40} height={40} />
+        <Calendar className="h-8 w-8" />
         <span className="ml-2 text-xl font-bold leading-snug tracking-tighter">
           Cal Buddy
         </span>

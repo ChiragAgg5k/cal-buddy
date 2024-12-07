@@ -24,7 +24,7 @@ export const metadata = {
   title: "Cal Buddy",
   description:
     "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
-  icons: ["/logo.png"],
+  icons: ["/icon-bordered.png"],
 };
 
 export default function RootLayout({
