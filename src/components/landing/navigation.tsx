@@ -3,6 +3,7 @@
 import { ThemeMode } from "@/components/theme-mode-util";
 import { Calendar, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { useUser } from "../context/auth-provider";
@@ -23,6 +24,8 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const user = useUser();
+  const pathname = usePathname();
+  const isLandingPage = pathname === "/";
 
   const handleSignOut = async () => {
     setLoading(true);
@@ -44,23 +47,24 @@ export default function Navigation() {
 
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
-      {navLinks.map((link) => (
-        <ScrollLink
-          key={link.to}
-          to={link.to}
-          spy={true}
-          smooth={true}
-          offset={-64}
-          duration={500}
-          onClick={() => setIsMenuOpen(false)}
-          className={`
+      {isLandingPage &&
+        navLinks.map((link) => (
+          <ScrollLink
+            key={link.to}
+            to={link.to}
+            spy={true}
+            smooth={true}
+            offset={-64}
+            duration={500}
+            onClick={() => setIsMenuOpen(false)}
+            className={`
             font-medium link-underline link-underline-black underline-offset-4 cursor-pointer
             ${isMobile ? "text-lg mb-4" : "text-sm"}
           `}
-        >
-          {link.label}
-        </ScrollLink>
-      ))}
+          >
+            {link.label}
+          </ScrollLink>
+        ))}
       {user.current ? (
         <>
           <Link
