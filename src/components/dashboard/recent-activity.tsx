@@ -1,21 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import {
   Calendar as CalendarIcon,
   MessageSquare,
   RefreshCw,
+  User,
 } from "lucide-react";
+import { useCallback } from "react";
+
+interface Activity {
+  id: string;
+  type: string;
+  user: string;
+  content: string;
+  timestamp: Date;
+}
 
 interface RecentActivityProps {
   clearRecentActivity: () => void;
-  activities: {
-    id: string;
-    type: string;
-    user: string;
-    content: string;
-    timestamp: Date;
-  }[];
+  activities: Activity[];
   isClient: boolean;
 }
 
@@ -24,9 +27,31 @@ export default function RecentActivity({
   activities,
   isClient,
 }: RecentActivityProps) {
+  const deduplicateActivities = useCallback((newActivities: Activity[]) => {
+    const uniqueActivities: Activity[] = [];
+    const activitySignatures = new Set<string>();
+
+    for (const activity of newActivities) {
+      const signature = `${activity.type}-${activity.content}-${activity.user}`;
+
+      if (!activitySignatures.has(signature)) {
+        if (uniqueActivities.length >= 5) {
+          uniqueActivities.shift();
+        }
+
+        uniqueActivities.push(activity);
+        activitySignatures.add(signature);
+      }
+    }
+
+    return uniqueActivities;
+  }, []);
+
+  const displayActivities = deduplicateActivities(activities);
+
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className="dark:border-none">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle>Recent Activity</CardTitle>
         <Button variant="outline" size="sm" onClick={clearRecentActivity}>
           <RefreshCw className="h-4 w-4 mr-2" />
@@ -35,7 +60,7 @@ export default function RecentActivity({
       </CardHeader>
       <CardContent>
         <ul className="space-y-3">
-          {activities.map((activity) => (
+          {displayActivities.map((activity) => (
             <li key={activity.id} className="flex items-center space-x-3">
               <span
                 className={`w-9 h-9 rounded-full flex items-center justify-center text-background ${
@@ -47,7 +72,7 @@ export default function RecentActivity({
                 }`}
               >
                 {activity.type === "comment" ? (
-                  activity.user.substring(0, 2).toUpperCase()
+                  <User className="h-5 w-5" />
                 ) : activity.type === "meeting" ? (
                   <CalendarIcon className="h-5 w-5" />
                 ) : (
@@ -58,7 +83,7 @@ export default function RecentActivity({
                 <p className="text-sm">{activity.content}</p>
                 <p className="text-sm text-muted-foreground">
                   {isClient
-                    ? activity.timestamp.toLocaleString("en-US")
+                    ? `${new Date(activity.timestamp).toLocaleDateString("en-US", { dateStyle: "long" })} at ${new Date(activity.timestamp).toLocaleTimeString("en-US", { timeStyle: "short" })}`
                     : "Loading..."}
                 </p>
               </div>

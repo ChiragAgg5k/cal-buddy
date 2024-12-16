@@ -471,7 +471,6 @@ export default function SmartCalendar({
           process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY"]
         }
         events={{
-          // googleCalendarId: user ? user.emailAddresses[0].emailAddress : "",
           events: events.map((e) => ({
             id: e.id,
             title: e.title,

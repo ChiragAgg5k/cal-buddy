@@ -30,7 +30,13 @@ export default function HeroSection() {
                 <Button>Get Started</Button>
               </Link>
             )}
-            <Button variant="outline">Learn More</Button>
+            <Link
+              href={`https://github.com/ChiragAgg5k/cal-buddy`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline">Learn More</Button>
+            </Link>
           </div>
         </div>
       </div>

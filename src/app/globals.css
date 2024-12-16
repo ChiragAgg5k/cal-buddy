@@ -43,30 +43,30 @@ body {
     --radius: 0.5rem;
   }
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --background: 240 5.7% 7.1%;
+    --foreground: 240 5% 84.9%;
+    --card: 240 5.7% 7%;
+    --card-foreground: 240 5% 84.9%;
+    --popover: 240 5.7% 10%;
+    --popover-foreground: 240 5% 84.9%;
+    --primary: 240 3.7% 50%;
+    --primary-foreground: 240 5% 95%;
     --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary-foreground: 240 5% 84.9%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
     --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --accent-foreground: 240 5% 84.9%;
+    --destructive: 0 50% 40%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --border: 240 3.7% 20%;
+    --input: 240 3.7% 18%;
+    --ring: 240 3.7% 50%;
+    --chart-1: 12 40% 40%;
+    --chart-2: 173 30% 35%;
+    --chart-3: 197 25% 25%;
+    --chart-4: 43 40% 45%;
+    --chart-5: 27 50% 45%;
   }
 }
 
@@ -110,4 +110,9 @@ body {
 .link-underline:hover {
   background-size: 100% 1px;
   background-position: 0 100%;
+}
+
+.fc-toolbar-title {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
 }

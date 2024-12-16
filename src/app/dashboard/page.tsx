@@ -284,13 +284,11 @@ export default function Dashboard() {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    // Check if onboarding has been seen before, if not, show it
     const hasSeenOnboarding = localStorage.getItem("hasSeenOnboarding");
-    console.log(hasSeenOnboarding);
     if (!hasSeenOnboarding) {
       setShowOnboarding(true);
     }
-  }, []);
+  }, [isClient]);
 
   const handleCloseOnboarding = () => {
     setShowOnboarding(false);
@@ -342,7 +340,7 @@ export default function Dashboard() {
 
       <main className="flex-1 p-6 overflow-y-auto">
         <div className="mx-auto space-y-6">
-          <div className="grid md:grid-cols-5 gap-6 mt-16">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-5 gap-6">
             <TasksComponent
               newTask={newTask}
               addTask={addTask}
@@ -356,7 +354,7 @@ export default function Dashboard() {
               deleteTask={deleteTask}
             />
 
-            <Card className="col-span-3 w-full">
+            <Card className="col-span-1 md:col-span-3 w-full dark:border-none">
               <CardContent className="flex flex-col items-center py-4 justify-center w-full">
                 <div className="w-full">
                   <SmartCalendar addDefaultEvents={false} />

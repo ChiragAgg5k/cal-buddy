@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 export default function CTASection() {
@@ -26,18 +25,16 @@ export default function CTASection() {
               scheduling.
             </p>
           </div>
-          <div className="w-full max-w-sm space-y-2">
-            <form className="flex space-x-2" onSubmit={handleSubmit}>
-              <Input
-                className="max-w-lg flex-1 bg-primary-foreground"
-                placeholder="Enter your email"
-                type="email"
-                required
-              />
-              <Button type="submit" variant="secondary">
+          <div className="w-full max-w-sm space-y-4">
+            <Link href="/dashboard">
+              <Button
+                type="submit"
+                variant="secondary"
+                className="w-full max-w-[250px]"
+              >
                 Get Started
               </Button>
-            </form>
+            </Link>
             <p className="text-xs text-muted-foreground">
               By signing up, you agree to our{" "}
               <Link className="underline underline-offset-2" href="#">

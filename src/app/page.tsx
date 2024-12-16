@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description:
       "Schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.",
     type: "website",
-    url: "https://calbuddy.com",
+    url: "https://cal-buddy.vercel.app/",
   },
   twitter: {
     card: "summary_large_image",
