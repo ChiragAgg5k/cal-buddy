@@ -6,7 +6,7 @@
 ![GitHub license](https://img.shields.io/github/license/ChiragAgg5k/cal-buddy)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ChiragAgg5k/cal-buddy)
 
-![Thumbnail](/assets/thumbnail.png)
+![Thumbnail](/public/thumbnail.png)
 
 [Cal Buddy](https://cal-buddy.vercel.app/) is a smart calendar assistant that helps you schedule, manage, and chat with your calendar. Boost your productivity with AI-powered task management.
 

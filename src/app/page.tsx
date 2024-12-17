@@ -1,10 +1,10 @@
 import CTASection from "@/components/landing/cta";
 import DemoSection from "@/components/landing/demo";
 import FeaturesSection from "@/components/landing/features";
+import Footer from "@/components/landing/footer";
 import HeroSection from "@/components/landing/hero";
 import PricingSection from "@/components/landing/pricing";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Cal Buddy",
@@ -34,35 +34,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
-      <main className="flex-1">
-        <HeroSection />
-        <FeaturesSection />
-        <DemoSection />
-        <PricingSection />
-        <CTASection />
-      </main>
-      <footer className="w-full py-6 px-4 md:px-6 border-t flex flex-col items-center justify-center space-y-2 sm:space-y-0 sm:flex-row sm:justify-between">
-        <div className="text-center">
-          <p className="text-sm">© 2024 Cal Buddy. All rights reserved.</p>
-        </div>
-
-        <nav className="flex gap-4 sm:gap-6 text-sm">
-          <Link
-            href="#"
-            className="link-underline link-underline-black  underline-offset-4 focus:outline-none"
-          >
-            Terms of Service
-          </Link>
-
-          <Link
-            href="#"
-            className="link-underline link-underline-black  underline-offset-4 focus:outline-none"
-          >
-            Privacy
-          </Link>
-        </nav>
-      </footer>
-    </>
+    <main className="flex-1">
+      <HeroSection />
+      <FeaturesSection />
+      <DemoSection />
+      <PricingSection />
+      <CTASection />
+      <Footer />
+    </main>
   );
 }

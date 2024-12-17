@@ -58,11 +58,17 @@ export default function Navigation() {
             duration={500}
             onClick={() => setIsMenuOpen(false)}
             className={`
-            font-medium link-underline link-underline-black underline-offset-4 cursor-pointer
+            font-medium transition-all duration-300 ease-in-out
+            relative overflow-hidden group
             ${isMobile ? "text-lg mb-4" : "text-sm"}
           `}
           >
-            {link.label}
+            <span className="relative z-10">{link.label}</span>
+            <span
+              className="absolute bottom-0 left-0 w-full h-[0.08rem] bg-foreground 
+              transform -translate-x-full group-hover:translate-x-0 
+              transition-transform duration-300 ease-in-out"
+            />
           </ScrollLink>
         ))}
       {user.current ? (
@@ -70,23 +76,37 @@ export default function Navigation() {
           <Link
             href="/dashboard"
             className={`
-            font-medium link-underline link-underline-black underline-offset-4
+            font-medium transition-all duration-300 ease-in-out
+            relative overflow-hidden group
             ${isMobile ? "text-lg mb-4" : "text-sm"}
           `}
           >
-            Dashboard
+            <span className="relative z-10">Dashboard</span>
+            <span
+              className="absolute bottom-0 left-0 w-full h-[0.08rem] bg-foreground 
+              transform -translate-x-full group-hover:translate-x-0 
+              transition-transform duration-300 ease-in-out"
+            />
           </Link>
           <div
             className={`
-          font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
-          ${isMobile ? "text-lg mb-4" : "text-sm"}
-        `}
+            font-medium transition-all duration-300 ease-in-out
+            relative overflow-hidden group hover:cursor-pointer
+            ${isMobile ? "text-lg mb-4" : "text-sm"}
+          `}
             onClick={handleSignOut}
           >
             {loading ? (
               <Icons.spinner className="size-4 animate-spin" />
             ) : (
-              "Sign Out"
+              <>
+                <span className="relative z-10">Sign Out</span>
+                <span
+                  className="absolute bottom-0 left-0 w-full h-[0.08rem] bg-foreground 
+                  transform -translate-x-full group-hover:translate-x-0 
+                  transition-transform duration-300 ease-in-out"
+                />
+              </>
             )}
           </div>
         </>
@@ -94,11 +114,17 @@ export default function Navigation() {
         <Link
           href="/sign-in"
           className={`
-              font-medium link-underline link-underline-black underline-offset-4 hover:cursor-pointer
-              ${isMobile ? "text-lg mb-4" : "text-sm"}
-            `}
+            font-medium transition-all duration-300 ease-in-out
+            relative overflow-hidden group hover:cursor-pointer
+            ${isMobile ? "text-lg mb-4" : "text-sm"}
+          `}
         >
-          Sign In
+          <span className="relative z-10">Sign In</span>
+          <span
+            className="absolute bottom-0 left-0 w-full h-[0.08rem] bg-foreground 
+            transform -translate-x-full group-hover:translate-x-0 
+            transition-transform duration-300 ease-in-out"
+          />
         </Link>
       )}
     </>

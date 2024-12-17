@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@copilotkit/react-core": "^1.3.1",
+    "@copilotkit/react-textarea": "^1.4.7",
     "@copilotkit/react-ui": "^1.3.1",
     "@copilotkit/runtime": "^1.3.1",
     "@fullcalendar/common": "5",
@@ -39,8 +40,6 @@
     "next": "14.2.13",
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^3.7.15",
-    "node-appwrite": "^14.1.0",
-    "openai": "^4.64.0",
     "react": "^18",
     "react-day-picker": "8.10.1",
     "react-dom": "^18",
@@ -56,12 +55,13 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-scroll": "^1.8.10",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
-    "postcss": "^8",
+    "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.13",
     "typescript": "^5"
   }
 }

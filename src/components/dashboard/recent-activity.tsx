@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Calendar as CalendarIcon,
-  MessageSquare,
-  RefreshCw,
-  User,
-} from "lucide-react";
+import { Calendar as CalendarIcon, MessageSquare, User } from "lucide-react";
 import { useCallback } from "react";
+import { RefreshIcon } from "../icons/refresh";
 
 interface Activity {
   id: string;
@@ -54,8 +50,7 @@ export default function RecentActivity({
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle>Recent Activity</CardTitle>
         <Button variant="outline" size="sm" onClick={clearRecentActivity}>
-          <RefreshCw className="h-4 w-4 mr-2" />
-          Clear Activity
+          <RefreshIcon />
         </Button>
       </CardHeader>
       <CardContent>

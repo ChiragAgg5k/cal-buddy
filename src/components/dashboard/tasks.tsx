@@ -94,7 +94,7 @@ export default function TasksComponent({
           </Select>
           <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <AlertDialogTrigger asChild>
-              <Button>
+              <Button variant="outline">
                 <Plus className="h-4 w-4" />
               </Button>
             </AlertDialogTrigger>
@@ -106,7 +106,7 @@ export default function TasksComponent({
                   to-do list.
                 </p>
                 <AlertDialogDescription>
-                  <div className="space-y-2 mt-4">
+                  <div className="space-y-4 mt-4">
                     <Label
                       htmlFor="task-description"
                       className="text-foreground font-semibold"
@@ -132,7 +132,7 @@ export default function TasksComponent({
                           setNewTaskPriority(value)
                         }
                       >
-                        <SelectTrigger className="w-fit">
+                        <SelectTrigger className="w-fit text-foreground w-full max-w-[100px]">
                           <SelectValue placeholder="Priority" />
                         </SelectTrigger>
                         <SelectContent>
