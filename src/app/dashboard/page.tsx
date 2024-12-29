@@ -1,14 +1,28 @@
 "use client";
 
-import SmartCalendar from "@/components/calendar/smart-calendar";
 import RecentActivity from "@/components/dashboard/recent-activity";
 import TasksComponent from "@/components/dashboard/tasks";
+import SmartCalendar from "@/components/smart-calendar";
 import { Button } from "@/components/ui/button";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Activity, Task } from "@/lib/types";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
 import { useEffect, useState } from "react";
+
+interface Task {
+  id: string;
+  title: string;
+  priority: "low" | "medium" | "high";
+  completed: boolean;
+}
+
+interface Activity {
+  id: string;
+  type: "comment" | "meeting" | "message";
+  content: string;
+  user: string;
+  timestamp: Date;
+}
 
 const defaultActivities: Activity[] = [
   {
