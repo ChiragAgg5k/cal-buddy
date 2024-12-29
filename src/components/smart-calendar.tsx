@@ -11,10 +11,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useUser } from "./context/auth-provider";
-import { Button } from "./ui/button";
 
 type Event = {
   id: string;
@@ -66,10 +63,8 @@ export default function SmartCalendar({
 }: {
   addDefaultEvents?: boolean;
 }) {
-  const user = useUser();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [showGoogleCalendarEvents, setShowGoogleCalendarEvents] =
-    useState(false);
+
   const [events, setEvents] = useState<Event[]>(
     addDefaultEvents
       ? [
@@ -491,20 +486,13 @@ export default function SmartCalendar({
   };
 
   return (
-    <div className="min-h-[500px]">
+    <div>
       <FullCalendar
         plugins={[dayGridPlugin, googleCalendarPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         googleCalendarApiKey={
           process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY"]
         }
-        eventSources={[
-          {
-            googleCalendarId: showGoogleCalendarEvents
-              ? user?.current?.email
-              : undefined,
-          },
-        ]}
         events={{
           events: events.map((e) => ({
             id: e.id,
@@ -521,23 +509,6 @@ export default function SmartCalendar({
         eventClassNames={`cursor-pointer`}
         eventDrop={handleEventDrop}
       />
-      <div className="flex justify-end items-center mt-4">
-        <Button
-          variant="outline"
-          onClick={() => setShowGoogleCalendarEvents(!showGoogleCalendarEvents)}
-        >
-          <Image
-            src="/google-calendar.png"
-            alt="Google Calendar"
-            width={16}
-            className="mr-2"
-            height={16}
-          />
-          {showGoogleCalendarEvents
-            ? "Hide Google Calendar Events"
-            : "Show Google Calendar Events"}
-        </Button>
-      </div>
       <Dialog
         open={!!selectedEvent}
         onOpenChange={() => setSelectedEvent(null)}
