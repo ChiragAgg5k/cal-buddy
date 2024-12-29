@@ -1,13 +1,14 @@
 "use client";
 
 import { account } from "@/lib/appwrite";
-import { ID, OAuthProvider } from "appwrite";
+import { ID, Models, OAuthProvider } from "appwrite";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Session = {
   userId: string;
   provider: string;
+  email: string;
 };
 
 const UserContext = createContext<{
@@ -33,11 +34,16 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
   const router = useRouter();
 
   async function login(email: string, password: string) {
-    const loggedIn: Session = await account.createEmailPasswordSession(
+    const loggedIn: Models.Session = await account.createEmailPasswordSession(
       email,
       password,
     );
-    setUser(loggedIn);
+
+    setUser({
+      userId: loggedIn.userId,
+      provider: loggedIn.provider,
+      email: email,
+    });
     window.location.replace("/dashboard");
   }
 
