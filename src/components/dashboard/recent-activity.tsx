@@ -1,17 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Activity } from "@/lib/types";
 import { Calendar as CalendarIcon, MessageSquare, User } from "lucide-react";
 import { useCallback } from "react";
 import { RefreshIcon } from "../icons/refresh";
-
-interface Activity {
-  id: string;
-  type: string;
-  user: string;
-  content: string;
-  timestamp: Date;
-}
-
 interface RecentActivityProps {
   clearRecentActivity: () => void;
   activities: Activity[];

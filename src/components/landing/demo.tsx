@@ -1,6 +1,6 @@
 "use client";
 
-import SmartCalendar from "@/components/smart-calendar";
+import SmartCalendar from "@/components/calendar/smart-calendar";
 import { AnimatePresence, motion } from "framer-motion";
 import TypingAnimation from "../ui/typing-animation";
 
