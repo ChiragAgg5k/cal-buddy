@@ -9,7 +9,9 @@ export default function Footer() {
 
       <nav className="flex gap-4 sm:gap-6 text-sm">
         <Link
-          href="#"
+          href="https://github.com/ChiragAgg5k/cal-buddy/blob/master/LICENSE"
+          target="_blank"
+          rel="noopener noreferrer"
           className={`
             font-medium transition-all duration-300 ease-in-out
             relative overflow-hidden group
@@ -23,7 +25,9 @@ export default function Footer() {
           />
         </Link>
         <Link
-          href="#"
+          href="https://github.com/ChiragAgg5k/cal-buddy/blob/master/LICENSE"
+          target="_blank"
+          rel="noopener noreferrer"
           className={`
             font-medium transition-all duration-300 ease-in-out
             relative overflow-hidden group

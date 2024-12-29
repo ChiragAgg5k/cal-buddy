@@ -6,9 +6,10 @@ import {
 } from "@/components/ui/dialog";
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core";
 import { useCopilotChatSuggestions } from "@copilotkit/react-ui";
-import { EventClickArg } from "@fullcalendar/core";
+import { EventClickArg, EventDropArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
+import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import { useEffect, useState } from "react";
 
@@ -462,10 +463,32 @@ export default function SmartCalendar({
     When making suggestions, consider the current date, upcoming important dates, and the overall distribution of events in the calendar. Provide context for why each suggestion might be helpful to the user.`,
   });
 
+  const handleEventDrop = (dropInfo: EventDropArg) => {
+    const { event } = dropInfo;
+    const existingEvent = events.find((e) => e.id === event.id);
+    if (!existingEvent) return;
+
+    const droppedDate = new Date(event.start!);
+    droppedDate.setDate(droppedDate.getDate() + 1);
+
+    const updatedEvent = {
+      ...existingEvent,
+      date: droppedDate.toISOString().split("T")[0],
+    };
+    deleteEvent(event.id);
+    addEvent(
+      updatedEvent.title,
+      updatedEvent.date,
+      updatedEvent.time || undefined,
+      updatedEvent.description || undefined,
+      updatedEvent.color || undefined,
+    );
+  };
+
   return (
     <div>
       <FullCalendar
-        plugins={[dayGridPlugin, googleCalendarPlugin]}
+        plugins={[dayGridPlugin, googleCalendarPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         googleCalendarApiKey={
           process.env["NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY"]
@@ -478,10 +501,13 @@ export default function SmartCalendar({
             description: e.description,
             color: e.color,
           })),
+          editable: true,
         }}
         weekends={true}
         eventClick={handleEventClick}
         eventDisplay="block"
+        eventClassNames={`cursor-pointer`}
+        eventDrop={handleEventDrop}
       />
       <Dialog
         open={!!selectedEvent}

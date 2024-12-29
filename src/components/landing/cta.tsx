@@ -35,12 +35,6 @@ export default function CTASection() {
                 Get Started
               </Button>
             </Link>
-            <p className="text-xs text-muted-foreground">
-              By signing up, you agree to our{" "}
-              <Link className="underline underline-offset-2" href="#">
-                Terms & Conditions
-              </Link>
-            </p>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Check } from "lucide-react";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const pricingPlans = [
   {
@@ -90,7 +91,16 @@ export default function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <Button className="mt-auto" disabled={plan.isDisabled}>
+              <Button
+                className="mt-auto"
+                disabled={plan.isDisabled}
+                onClick={() => {
+                  toast.success("Coming soon!", {
+                    description:
+                      "For now, feel free to use the free plan and get started!",
+                  });
+                }}
+              >
                 {plan.buttonText}
               </Button>
             </div>
