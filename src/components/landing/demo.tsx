@@ -94,6 +94,9 @@ export default function DemoSection() {
             />
           </div>
         </div>
+        <p className="text-sm text-muted-foreground mt-4 text-center">
+          Tip: Try dragging the events on the calendar!
+        </p>
       </div>
     </section>
   );

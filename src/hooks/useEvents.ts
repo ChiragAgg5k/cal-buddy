@@ -1,6 +1,6 @@
 import { Event } from "@/lib/types";
 import { parseDate } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useEvents = (addDefaultEvents = true) => {
   const defaultEvents: Event[] = addDefaultEvents
@@ -8,14 +8,41 @@ export const useEvents = (addDefaultEvents = true) => {
         {
           id: "1",
           title: "Office Meeting",
-          date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14)
+          date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12)
             .toISOString()
             .split("T")[0],
           time: "10:00",
           description: "Discuss project progress and next steps.",
           color: "#03A9F4",
         },
-        // ... other default events
+        {
+          id: "2",
+          title: "Doctor Appointment",
+          date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2)
+            .toISOString()
+            .split("T")[0],
+          time: "10:00",
+          description: "Get a checkup",
+          color: "#FF9800",
+        },
+        {
+          id: "3",
+          title: "Coffee with John",
+          date: new Date(Date.now()).toISOString().split("T")[0],
+          time: "10:00",
+          description: "Talk about the future of the company",
+          color: "#4CAF50",
+        },
+        {
+          id: "4",
+          title: "Hangout with friends",
+          date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 10)
+            .toISOString()
+            .split("T")[0],
+          time: "10:00",
+          description: "Go to the park and hangout with friends",
+          color: "#FF5722",
+        },
       ]
     : [];
 
@@ -65,5 +92,15 @@ export const useEvents = (addDefaultEvents = true) => {
     });
   };
 
-  return { events, addEvent, deleteEvent, setEvents };
+  const updateEvent = useCallback((updatedEvent: Event) => {
+    setEvents((currentEvents) => {
+      const updatedEvents = currentEvents.map((event) =>
+        event.id === updatedEvent.id ? updatedEvent : event,
+      );
+      localStorage.setItem("events", JSON.stringify(updatedEvents));
+      return updatedEvents;
+    });
+  }, []);
+
+  return { events, addEvent, deleteEvent, setEvents, updateEvent };
 };
