@@ -1,17 +1,12 @@
 "use client";
 
 import { account } from "@/lib/appwrite";
-import { ID, OAuthProvider } from "appwrite";
+import { ID, Models, OAuthProvider } from "appwrite";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Session = {
-  userId: string;
-  provider: string;
-};
-
 const UserContext = createContext<{
-  current: Session | null;
+  current: Models.Session | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loginWithGoogle: () => Promise<void>;
@@ -29,11 +24,11 @@ export function useUser() {
 }
 
 export function AuthProvider(props: React.PropsWithChildren<{}>) {
-  const [user, setUser] = useState<Session | null>(null);
+  const [user, setUser] = useState<Models.Session | null>(null);
   const router = useRouter();
 
   async function login(email: string, password: string) {
-    const loggedIn: Session = await account.createEmailPasswordSession(
+    const loggedIn: Models.Session = await account.createEmailPasswordSession(
       email,
       password,
     );
@@ -61,7 +56,7 @@ export function AuthProvider(props: React.PropsWithChildren<{}>) {
 
   async function init() {
     try {
-      const loggedIn = (await account.get()) as unknown as Session;
+      const loggedIn = (await account.get()) as unknown as Models.Session;
       setUser(loggedIn);
     } catch (err) {
       setUser(null);

@@ -1,6 +1,6 @@
 "use client";
 
-import SmartCalendar from "@/components/smart-calendar";
+import SmartCalendar from "@/components/calendar/smart-calendar";
 import { AnimatePresence, motion } from "framer-motion";
 import TypingAnimation from "../ui/typing-animation";
 
@@ -87,7 +87,11 @@ export default function DemoSection() {
             </AnimatePresence>
           </div>
           <div className="w-full lg:w-1/2">
-            <SmartCalendar addDefaultEvents aria-label="Calendar component" />
+            <SmartCalendar
+              addDefaultEvents
+              addGoogleCalendarEvents={false}
+              aria-label="Calendar component"
+            />
           </div>
         </div>
       </div>

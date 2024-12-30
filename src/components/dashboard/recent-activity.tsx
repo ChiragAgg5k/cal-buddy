@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDate } from "@/lib/utils";
 import { Calendar as CalendarIcon, MessageSquare, User } from "lucide-react";
 import { useCallback } from "react";
 import { RefreshIcon } from "../icons/refresh";
@@ -78,7 +79,7 @@ export default function RecentActivity({
                 <p className="text-sm">{activity.content}</p>
                 <p className="text-sm text-muted-foreground">
                   {isClient
-                    ? `${new Date(activity.timestamp).toLocaleDateString("en-US", { dateStyle: "long" })} at ${new Date(activity.timestamp).toLocaleTimeString("en-US", { timeStyle: "short" })}`
+                    ? formatDate(new Date(activity.timestamp))
                     : "Loading..."}
                 </p>
               </div>

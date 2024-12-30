@@ -1,8 +1,8 @@
 "use client";
 
+import SmartCalendar from "@/components/calendar/smart-calendar";
 import RecentActivity from "@/components/dashboard/recent-activity";
 import TasksComponent from "@/components/dashboard/tasks";
-import SmartCalendar from "@/components/smart-calendar";
 import { Button } from "@/components/ui/button";
 
 import { Card, CardContent } from "@/components/ui/card";
