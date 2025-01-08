@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="w-full py-6 px-4 md:px-6 border-t flex flex-col items-center justify-center space-y-2 sm:space-y-0 sm:flex-row sm:justify-between">
       <div className="text-center">
-        <p className="text-sm">© 2024 Cal Buddy. All rights reserved.</p>
+        <p className="text-sm">© {currentYear} Cal Buddy. All rights reserved.</p>
       </div>
 
       <nav className="flex gap-4 sm:gap-6 text-sm">
