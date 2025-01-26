@@ -97,6 +97,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contributors
 A big shoutout and heartfelt thanks to all our amazing contributors for their incredible efforts and dedication! This project wouldn’t be where it is without you. 
+
 <a href="https://github.com/ChiragAgg5k/cal-buddy/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ChiragAgg5k/cal-buddy" />
 </a>
