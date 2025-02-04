@@ -1,9 +1,9 @@
 {
   "name": "cal-buddy",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -64,5 +64,14 @@
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2"
-  }
+  },
+  "author": {
+    "name": "Chirag Aggarwal",
+    "email": "chiragagg5k@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChiragAgg5k/cal-buddy"
+  },
+  "license": "MIT"
 }

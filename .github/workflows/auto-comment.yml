@@ -15,45 +15,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Respond to new issues
-      if: ${{ github.event_name == 'issues' && github.event.action == 'opened' }}
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-          Hey @${{ github.actor }}, Welcome to cal-buddy!
-          Thanks for opening an issue! Please wait for the issue to be assigned.
-          Happy Coding!!
+      - name: Respond to new issues
+        if: ${{ github.event_name == 'issues' && github.event.action == 'opened' }}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hey @${{ github.actor }}, Welcome to cal-buddy!
+            Thanks for opening an issue! Please wait for the issue to be assigned.
+            Happy Coding!!
 
-    - name: Respond to closed issues
-      if: ${{ github.event_name == 'issues' && github.event.action == 'closed' }}
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-          Hello @${{ github.event.issue.user.login }}! Your issue #${{ github.event.issue.number }} has been closed.
-          Thank you for your contribution to cal-buddy!!!
+      - name: Respond to closed issues
+        if: ${{ github.event_name == 'issues' && github.event.action == 'closed' }}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}! Your issue #${{ github.event.issue.number }} has been closed.
+            Thank you for your contribution to cal-buddy!!!
 
-    - name: Respond to new PRs
-      if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.pull_request.number }}
-        body: |
-          Hey @${{ github.actor }}, Welcome to cal-buddy
-          Thanks for your contribution! Your effort makes this project better. Keep it up!
-          Please wait for the PR to be reviewed.
-          Happy Coding!!
+      - name: Respond to new PRs
+        if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Hey @${{ github.actor }}, Welcome to cal-buddy
+            Thanks for your contribution! Your effort makes this project better. Keep it up!
+            Please wait for the PR to be reviewed.
+            Happy Coding!!
 
-    - name: Respond to merged PRs
-      if: ${{ github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged }}
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.pull_request.number }}
-        body: |
-          @${{ github.event.pull_request.user.login }} Congrats, Your pull request has been successfully merged
-          Thank you for your contribution to cal-buddy!!
-          Happy coding, Keep Contributing !!!
+      - name: Respond to merged PRs
+        if: ${{ github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged }}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            @${{ github.event.pull_request.user.login }} Congrats, Your pull request has been successfully merged
+            Thank you for your contribution to cal-buddy!!
+            Happy coding, Keep Contributing !!!
