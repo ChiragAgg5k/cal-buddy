@@ -13,7 +13,7 @@ const copilotKit = new CopilotRuntime();
 const serviceAdapter = new GroqAdapter({
   // @ts-ignore
   groq,
-  model: "qwen-2.5-32b",
+  model: "gemma2-9b-it",
 });
 
 export const POST = async (req: NextRequest) => {
