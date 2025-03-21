@@ -253,7 +253,7 @@ export const useCopilotFeatures = ({
                     : "Events retrieved successfully";
                 } catch (error) {
                   console.error("Error parsing result:", error);
-                  return "Events retrieved (count unavailable)";
+                  return "Events retrieved";
                 }
               })()}
             </span>
