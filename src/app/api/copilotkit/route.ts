@@ -13,7 +13,7 @@ const copilotKit = new CopilotRuntime();
 const serviceAdapter = new GroqAdapter({
   // @ts-ignore
   groq,
-  model: "llama-3.3-70b-versatile",
+  model: "qwen-2.5-32b",
 });
 
 export const POST = async (req: NextRequest) => {

@@ -45,7 +45,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <NextTopLoader color="#000000" showSpinner={false} />
-            <CopilotKit runtimeUrl="/api/copilotkit">
+            <CopilotKit showDevConsole={false} runtimeUrl="/api/copilotkit">
               <Navigation />
               {children}
               <CopilotPopup

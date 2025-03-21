@@ -10,10 +10,10 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@copilotkit/react-core": "^1.4.7",
-    "@copilotkit/react-textarea": "^1.4.7",
-    "@copilotkit/react-ui": "^1.4.7",
-    "@copilotkit/runtime": "^1.4.7",
+    "@copilotkit/react-core": "^1.7.1",
+    "@copilotkit/react-textarea": "^1.7.1",
+    "@copilotkit/react-ui": "^1.7.1",
+    "@copilotkit/runtime": "^1.7.1",
     "@fullcalendar/common": "^5.11.5",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
